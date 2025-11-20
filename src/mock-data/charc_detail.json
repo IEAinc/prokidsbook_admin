@@ -1,0 +1,27 @@
+{
+  "user_id": "user1",
+  "user_name" : "홍길동",
+  "user_img": "/images/ch_sm_img.png",
+  "charc_no":9007199254740991,
+  "charc_dt" : "2024-05-01T14:30:45Z",
+  "charc_prompt": "five year old Korean cute girl character, Upper body, Oil painting style, distinct brush strokes, impasto, detailed lighting, intricate colors, colors vibrant, realistic proportions, lifelike figures, mood magical, Design a classic Snow White dress with a vibrant blue bodice, puffed sleeves with red accents, a yellow flowing skirt, and a red bow headband, white background.",
+  "charc_img_url" : "/images/ch_img.svg",
+  "story_list": [
+    {
+      "story_no" : 10001,
+      "story_title" : "하늘을 달리는 루아"
+    },
+    {
+      "story_no" : 10002,
+      "story_title" : "신나는 프랑스 여행"
+    },
+    {
+      "story_no" : 10003,
+      "story_title" : "간호사가 된 루아"
+    },
+    {
+      "story_no" : 10004,
+      "story_title" : "루아의 우주 탐험"
+    }
+  ]
+}

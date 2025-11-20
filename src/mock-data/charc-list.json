@@ -1,0 +1,54 @@
+[
+  {
+    "date" : "2024-06-05",
+    "items" : [
+      {
+        "charcNo": 9007199254740991,
+        "user_id": "user1",
+        "img_url": "/images/ch_img.svg",
+        "time_stamp": "2024-06-05T14:30:45Z",
+        "ban": false
+      },
+      {
+        "charcNo": 9007199254740992,
+        "user_id": "user2",
+        "img_url": "/images/ch_img.svg",
+        "time_stamp": "2024-06-05T14:30:45Z",
+        "ban": false
+      }
+    ]
+  },
+  {
+    "date": "2024-06-01",
+    "items" : [
+      {
+        "charcNo": 9007199254740993,
+        "user_id": "user1",
+        "img_url": "/images/ch_img.svg",
+        "time_stamp": "2024-06-01T14:30:45Z",
+        "ban": false
+      },
+      {
+        "charcNo": 9007199254740994,
+        "user_id": "user1",
+        "img_url": "/images/ch_img.svg",
+        "time_stamp": "2024-06-01T14:30:45Z",
+        "ban": false
+      },
+      {
+        "charcNo": 9007199254740995,
+        "user_id": "user2",
+        "img_url": "/images/ch_img.svg",
+        "time_stamp": "2024-06-01T14:30:45Z",
+        "ban": false
+      },
+      {
+        "charcNo": 9007199254740996,
+        "user_id": "user2",
+        "img_url": "/images/ch_img.svg",
+        "time_stamp": "2024-05-01T14:30:45Z",
+        "ban": false
+      }
+    ]
+  }
+]

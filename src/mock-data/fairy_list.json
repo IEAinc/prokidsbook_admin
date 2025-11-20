@@ -1,0 +1,138 @@
+[
+  {
+    "date": "2024-06-05",
+    "items" : [
+      {
+        "user_id": "user1",
+        "user_name": "홍길동",
+        "story_no": 10001,
+        "story_dt": "2024-06-01T14:30:45Z",
+        "story_img_list": [
+          {
+            "story_img_url": "/images/ch_story.png"
+          },
+          {
+            "story_img_url": "/images/ch_story.png"
+          },
+          {
+            "story_img_url": "/images/ch_story.png"
+          },
+          {
+            "story_img_url": "/images/ch_story.png"
+          },
+          {
+            "story_img_url": "/images/ch_story.png"
+          },
+          {
+            "story_img_url": "/images/ch_story.png"
+          },
+          {
+            "story_img_url": "/images/ch_story.png"
+          },
+          {
+            "story_img_url": "/images/ch_story.png"
+          }
+        ]
+      },
+      {
+        "user_id": "user2",
+        "user_name": "이동훈",
+        "story_no": 10002,
+        "story_dt": "2024-06-01T14:30:45Z",
+        "story_img_list": [
+          {
+            "story_img_url": "/images/ch_story.png"
+          },
+          {
+            "story_img_url": "/images/ch_story.png"
+          },
+          {
+            "story_img_url": "/images/ch_story.png"
+          },
+          {
+            "story_img_url": "/images/ch_story.png"
+          },
+          {
+            "story_img_url": "/images/ch_story.png"
+          },
+          {
+            "story_img_url": "/images/ch_story.png"
+          },
+          {
+            "story_img_url": "/images/ch_story.png"
+          },
+          {
+            "story_img_url": "/images/ch_story.png"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "date": "2024-06-06",
+    "items" : [
+      {
+        "user_id": "user1",
+        "story_no": 10003,
+        "story_dt": "2024-06-01T14:30:45Z",
+        "story_img_list": [
+          {
+            "story_img_url": "/images/ch_story.png"
+          },
+          {
+            "story_img_url": "/images/ch_story.png"
+          },
+          {
+            "story_img_url": "/images/ch_story.png"
+          },
+          {
+            "story_img_url": "/images/ch_story.png"
+          },
+          {
+            "story_img_url": "/images/ch_story.png"
+          },
+          {
+            "story_img_url": "/images/ch_story.png"
+          },
+          {
+            "story_img_url": "/images/ch_story.png"
+          },
+          {
+            "story_img_url": "/images/ch_story.png"
+          }
+        ]
+      },
+      {
+        "user_id": "user2",
+        "story_no": 10004,
+        "story_dt": "2024-06-01T14:30:45Z",
+        "story_img_list": [
+          {
+            "story_img_url": "/images/ch_story.png"
+          },
+          {
+            "story_img_url": "/images/ch_story.png"
+          },
+          {
+            "story_img_url": "/images/ch_story.png"
+          },
+          {
+            "story_img_url": "/images/ch_story.png"
+          },
+          {
+            "story_img_url": "/images/ch_story.png"
+          },
+          {
+            "story_img_url": "/images/ch_story.png"
+          },
+          {
+            "story_img_url": "/images/ch_story.png"
+          },
+          {
+            "story_img_url": "/images/ch_story.png"
+          }
+        ]
+      }
+    ]
+  }
+]

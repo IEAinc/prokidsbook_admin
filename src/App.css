@@ -1,0 +1,136 @@
+/* 올바른 순서 */
+@import "tailwindcss";
+
+/* 🖌 Tailwind v4의 @theme 사용 */
+@theme {
+  --font-display: "Pretendard", "sans-serif";
+  --color-bg-light: #f9fafb;
+  --color-bg-dark: #1e2028;
+  --color-text-light: #1f2937;
+  --color-text-dark: #f9fafb;
+  --color-color-default: #33BB9A;
+  --color-primary-main: #33BB9A;
+  --color-primary-light: #D6F1EB;
+  --color-table-bg : #F8F8F8;
+  --color-table-br : #C6C6C6;
+  --color-br-gray: #71717a;
+  --color-light-gray: #d1d5db;
+  --color-white:#ffffff;
+  --color-black:#000000;
+}
+
+#root {
+  width: 100%;
+  margin: 0 auto;
+}
+/* 🌍 기본 스타일 설정 */
+html {
+  font-family: var(--font-display), sans-serif;
+  background-color: var(--bg-light);
+  color: var(--text-light);
+  scroll-behavior: smooth;
+}
+
+.dark {
+  background-color: var(--bg-dark);
+  color: var(--text-dark);
+}
+
+/* Pretendard 폰트 */
+@font-face {
+  font-family: "Pretendard";
+  src: url("./assets/fonts/Pretendard-ExtraBold.woff") format("woff");
+  font-weight: 800;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: "Pretendard";
+  src: url("./assets/fonts/Pretendard-Bold.woff") format("woff");
+  font-weight: 700;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: "Pretendard";
+  src: url("./assets/fonts/Pretendard-SemiBold.woff") format("woff");
+  font-weight: 600;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: "Pretendard";
+  src: url("./assets/fonts/Pretendard-Medium.woff") format("woff");
+  font-weight: 500;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: "Pretendard";
+  src: url("./assets/fonts/Pretendard-Regular.woff") format("woff");
+  font-weight: 400;
+  font-style: normal;
+}
+
+/* todo : 반응형 설정 */
+@media (prefers-color-scheme: dark) {
+  html {
+    background-color: var(--bg-dark);
+    color: var(--text-dark);
+  }
+}
+
+@media (max-width: 768px) {
+  #root {
+    padding: 0.5rem;
+  }
+}
+
+/*커스텀 스타일*/
+/*1. datepicker*/
+
+.react-datepicker {
+  @apply border border-gray-300 rounded-lg shadow-lg bg-white;
+}
+
+.react-datepicker-popper {
+  z-index: 50 !important;
+}
+
+.react-datepicker__header {
+  @apply bg-white text-gray-700;
+}
+
+.react-datepicker__current-month,
+.react-datepicker-time__header,
+.react-datepicker-year-header {
+  @apply text-lg font-semibold text-gray-900;
+}
+.react-datepicker-wrapper {
+  @apply mr-0;
+}
+.react-datepicker__day--selected {
+  @apply bg-primary-main text-white font-bold;
+}
+
+.react-datepicker__day--today {
+  @apply border border-[#33BB9A] font-bold;
+}
+
+.react-datepicker__day--in-range {
+  @apply bg-[#E0ECE9] text-gray-600 font-bold;
+}
+
+.react-datepicker__week {
+  @apply flex justify-between;
+}
+
+.react-datepicker__triangle {
+  @apply hidden;
+}
+.dark .custom-quill .ql-container {
+  border: 1px solid red; /* slate-300 */
+}
+
+.dark .custom-quill .ql-editor {
+}

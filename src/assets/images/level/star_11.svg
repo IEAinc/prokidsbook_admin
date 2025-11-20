@@ -1,0 +1,32 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="40" height="40" viewBox="0 0 40 40" fill="none">
+    <g clip-path="url(#clip0_741_2381)">
+        <g filter="url(#filter0_dd_741_2381)">
+            <path d="M25.9464 10.5518C21.2411 -0.47783 18.5663 0.118192 14.0542 10.539C13.9149 10.8608 13.6057 11.0932 13.2579 11.1376C1.82659 12.598 0.354993 15.1064 9.28715 23.0688C9.5475 23.3009 9.67213 23.6687 9.6076 24.0115C7.095 37.3585 10.341 37.6945 19.8901 32.012C20.2048 31.8247 20.6101 31.8271 20.9236 32.0165C30.8523 38.018 32.5418 36.6126 30.3734 24.005C30.3149 23.6649 30.4415 23.3056 30.7013 23.0783C38.835 15.9606 39.1988 13.1463 26.717 11.1531C26.3796 11.0993 26.0805 10.866 25.9464 10.5518Z" fill="url(#paint0_linear_741_2381)"/>
+        </g>
+    </g>
+    <defs>
+        <filter id="filter0_dd_741_2381" x="-16.1176" y="-13.1941" width="72.2353" height="72.2353" filterUnits="userSpaceOnUse" color-interpolation-filters="sRGB">
+            <feFlood flood-opacity="0" result="BackgroundImageFix"/>
+            <feColorMatrix in="SourceAlpha" type="matrix" values="0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 127 0" result="hardAlpha"/>
+            <feOffset dy="3.92353"/>
+            <feGaussianBlur stdDeviation="9.80882"/>
+            <feComposite in2="hardAlpha" operator="out"/>
+            <feColorMatrix type="matrix" values="0 0 0 0 0 0 0 0 0 0.740741 0 0 0 0 0.97466 0 0 0 0.3 0"/>
+            <feBlend mode="normal" in2="BackgroundImageFix" result="effect1_dropShadow_741_2381"/>
+            <feColorMatrix in="SourceAlpha" type="matrix" values="0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 127 0" result="hardAlpha"/>
+            <feOffset/>
+            <feGaussianBlur stdDeviation="4.90441"/>
+            <feComposite in2="hardAlpha" operator="out"/>
+            <feColorMatrix type="matrix" values="0 0 0 0 0.459992 0 0 0 0 0.0357 0 0 0 0 1 0 0 0 0.25 0"/>
+            <feBlend mode="normal" in2="effect1_dropShadow_741_2381" result="effect2_dropShadow_741_2381"/>
+            <feBlend mode="normal" in="SourceGraphic" in2="effect2_dropShadow_741_2381" result="shape"/>
+        </filter>
+        <linearGradient id="paint0_linear_741_2381" x1="15.875" y1="9.97656" x2="64.6016" y2="111.297" gradientUnits="userSpaceOnUse">
+            <stop stop-color="white"/>
+            <stop offset="1" stop-color="white" stop-opacity="0"/>
+        </linearGradient>
+        <clipPath id="clip0_741_2381">
+            <rect width="40" height="40" rx="20" fill="white"/>
+        </clipPath>
+    </defs>
+</svg>
