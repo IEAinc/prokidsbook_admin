@@ -1,3 +1,5 @@
+// 이미지 상세 -> 동화 조회 시 리스트
+
 import {useState,useMemo} from 'react';
 
 import Checkbox from '../../common/forms/Checkbox';

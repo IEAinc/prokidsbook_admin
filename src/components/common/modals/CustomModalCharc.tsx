@@ -1,7 +1,9 @@
+// 캐릭터 상세 모달
+
 import { useEffect } from 'react';
 import { format, parseISO, addHours } from 'date-fns';
 /* 아이콘 */
-import {HiChevronRight, HiX} from "react-icons/hi";
+import { HiChevronRight, HiX } from "react-icons/hi";
 
 /* 컴포넌트 */
 import Btn from '../buttons/Btn.tsx'
@@ -30,13 +32,13 @@ interface CustomModalCharcProps {
 }
 
 const CustomModalCharc = ({
-                      isOpen,
-                      onClose,
-                      isBanned=false,
-                      onStoryClick,
-                      userData,
-                      sidebarWidth = "300px", // 기본 너비
-                     }: CustomModalCharcProps) => {
+  isOpen,
+  onClose,
+  isBanned = false,
+  onStoryClick,
+  userData,
+  sidebarWidth = "300px", // 기본 너비
+}: CustomModalCharcProps) => {
 
   useEffect(() => {
     if (isOpen) {
@@ -56,13 +58,13 @@ const CustomModalCharc = ({
   if (!isOpen) return null;
 
   if (!isOpen) return null;
-  
+
   /* 날짜 변환 */
 
 
-  const formatDate = (dt:string) => {
+  const formatDate = (dt: string) => {
     const date = parseISO(dt);
-    const formatted = format(date,'yyyy-MM-dd hh:mm:ss');
+    const formatted = format(date, 'yyyy-MM-dd hh:mm:ss');
     return formatted;
   }
 
@@ -149,7 +151,7 @@ const CustomModalCharc = ({
             background="icon"
             onClick={onClose}
           >
-            <HiX className="w-8 h-8 text-black"/>
+            <HiX className="w-8 h-8 text-black" />
           </Btn>
         </div>
         <div className="w-[70vh] h-[70vh] bg-white rounded-xl overflow-hidden">
