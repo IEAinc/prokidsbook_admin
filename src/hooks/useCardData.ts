@@ -1,10 +1,7 @@
 import { useState, useEffect } from 'react'
-import axiosInstance from './../../axios'
+import axiosInstance from '../api/axios'
 
-/**
- * /statics 요약 API 응답 타입
- * (현재 카드에서 쓰고 있는 실제 구조 기준)
- */
+/* statics 응답 타입 */
 interface SummaryCountData {
   today: number
   last7DaysTotal: number
@@ -13,7 +10,7 @@ interface SummaryCountData {
   delta: number
 }
 
-// visitor, download 용
+// visitor, download
 interface SummaryVisitorDownload {
   today: number
   last7DaysTotal: number
@@ -22,7 +19,7 @@ interface SummaryVisitorDownload {
   delta: number
 }
 
-// account, stories, characters 용
+// account, stories, characters
 interface SummaryAccountStoriesCharacters {
   created: SummaryCountData
   deleted: SummaryCountData
@@ -36,9 +33,7 @@ interface DashboardSummaryApiResponse {
   characters: SummaryAccountStoriesCharacters
 }
 
-/**
- * 화면에서 사용할 카드 1개 타입
- */
+/* 화면에서 사용할 카드 1개 타입 */
 export interface DashboardDataDetails {
   today: string
   todayCount: string
@@ -48,9 +43,7 @@ export interface DashboardDataDetails {
   total: string
 }
 
-/**
- * 화면에서 사용할 대시보드 카드 전체 타입
- */
+/* 화면에서 사용할 대시보드 카드 전체 타입 */
 export interface DashboardData {
   visitor: DashboardDataDetails
   download: DashboardDataDetails
@@ -59,18 +52,13 @@ export interface DashboardData {
   characters: DashboardDataDetails
 }
 
-/**
- * delta 포맷팅
- */
+/* delta 포맷팅 */
 const formatDelta = (delta?: number | null): string => {
   if (delta == null || delta === 0) return '-'
   return delta > 0 ? `+${delta}` : String(delta)
 }
 
-/**
- * visitor / download 카드용 매핑
- *  - today, week, month, total, delta 그대로 사용
- */
+/* visitor / download 카드용 매핑 - today, week, month, total, delta 사용 */
 const mapVisitorDownload = (src?: SummaryVisitorDownload): DashboardDataDetails => {
   if (!src) {
     return {
@@ -97,7 +85,6 @@ const mapVisitorDownload = (src?: SummaryVisitorDownload): DashboardDataDetails 
  * account / stories / characters 카드용 매핑
  *  - today / todayCount / week 는 created 기준
  *  - month / monthCount / total 은 deleted 기준
- *    (기존 코드 로직과 동일하게 맞춤)
  */
 const mapAccountStoriesCharacters = (
   src?: SummaryAccountStoriesCharacters
@@ -115,11 +102,7 @@ const mapAccountStoriesCharacters = (
   }
 }
 
-/**
- * 대시보드 카드 데이터 훅
- *  - /statics 호출해서 카드 5개 한 번에 구성
- *  - 차트 훅처럼: axios 호출 → 타입 지정 → 매핑 → 화면용 데이터 반환
- */
+/* 대시보드 카드 데이터 훅  - /statics 호출해서 카드 구성 */
 export function useCardData() {
   const [data, setData] = useState<DashboardData | null>(null)
   const [error, setError] = useState<string | null>(null)
@@ -155,9 +138,7 @@ export function useCardData() {
   return { data, error, loading }
 }
 
-/**
- * 상세 페이지에서 사용할 타입
- */
+/* 상세 페이지에서 사용할 타입 */
 export type DashboardDetailType =
   | 'visitor'
   | 'download'
@@ -165,11 +146,7 @@ export type DashboardDetailType =
   | 'stories'
   | 'characters'
 
-/**
- * detail 페이지 카드 데이터 훅
- *  - /statics/:type 에서 이미 카드 형태(DashboardDataDetails)로 내려온다고 가정
- *  - 차트 훅이랑 느낌 맞게: axios → 타입 지정 후 그대로 set
- */
+/* detail 페이지 카드 데이터 훅 */
 export function useDetailData(type: DashboardDetailType) {
   const [data, setData] = useState<DashboardDataDetails | null>(null)
   const [error, setError] = useState<string | null>(null)
