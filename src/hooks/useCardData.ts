@@ -1,116 +1,198 @@
 import { useState, useEffect } from 'react'
 import axiosInstance from './../../axios'
 
-interface DashboardData {
-    visitor: DashboardDataDetails
-    download: DashboardDataDetails
-    account: DashboardDataDetails
-    stories: DashboardDataDetails
-    characters: DashboardDataDetails
+/**
+ * /statics 요약 API 응답 타입
+ * (현재 카드에서 쓰고 있는 실제 구조 기준)
+ */
+interface SummaryCountData {
+  today: number
+  last7DaysTotal: number
+  thisMonthTotal: number
+  total: number
+  delta: number
 }
 
-interface CountData {
-    today: string
-    last7DaysTotal: string
-    thisMonthTotal: string
-    total: string
+// visitor, download 용
+interface SummaryVisitorDownload {
+  today: number
+  last7DaysTotal: number
+  thisMonthTotal: number
+  total: number
+  delta: number
 }
 
-interface DashboardDataDetails {
-    today: string
-    todayCount: string
-    week: string
-    month: string
-    monthCount: string
-    total: string
-    common?: CountData
-    created?: CountData
-    deleted?: CountData
+// account, stories, characters 용
+interface SummaryAccountStoriesCharacters {
+  created: SummaryCountData
+  deleted: SummaryCountData
 }
 
-//대시보드 카드 데이터
+interface DashboardSummaryApiResponse {
+  visitor: SummaryVisitorDownload
+  download: SummaryVisitorDownload
+  account: SummaryAccountStoriesCharacters
+  stories: SummaryAccountStoriesCharacters
+  characters: SummaryAccountStoriesCharacters
+}
+
+/**
+ * 화면에서 사용할 카드 1개 타입
+ */
+export interface DashboardDataDetails {
+  today: string
+  todayCount: string
+  week: string
+  month: string
+  monthCount: string
+  total: string
+}
+
+/**
+ * 화면에서 사용할 대시보드 카드 전체 타입
+ */
+export interface DashboardData {
+  visitor: DashboardDataDetails
+  download: DashboardDataDetails
+  account: DashboardDataDetails
+  stories: DashboardDataDetails
+  characters: DashboardDataDetails
+}
+
+/**
+ * delta 포맷팅
+ */
+const formatDelta = (delta?: number | null): string => {
+  if (delta == null || delta === 0) return '-'
+  return delta > 0 ? `+${delta}` : String(delta)
+}
+
+/**
+ * visitor / download 카드용 매핑
+ *  - today, week, month, total, delta 그대로 사용
+ */
+const mapVisitorDownload = (src?: SummaryVisitorDownload): DashboardDataDetails => {
+  if (!src) {
+    return {
+      today: '-',
+      todayCount: '-',
+      week: '-',
+      month: '-',
+      monthCount: '',
+      total: '-',
+    }
+  }
+
+  return {
+    today: String(src.today ?? '-'),
+    todayCount: formatDelta(src.delta),
+    week: String(src.last7DaysTotal ?? '-'),
+    month: String(src.thisMonthTotal ?? '-'),
+    monthCount: '',
+    total: String(src.total ?? '-'),
+  }
+}
+
+/**
+ * account / stories / characters 카드용 매핑
+ *  - today / todayCount / week 는 created 기준
+ *  - month / monthCount / total 은 deleted 기준
+ *    (기존 코드 로직과 동일하게 맞춤)
+ */
+const mapAccountStoriesCharacters = (
+  src?: SummaryAccountStoriesCharacters
+): DashboardDataDetails => {
+  const created = src?.created
+  const deleted = src?.deleted
+
+  return {
+    today: created ? String(created.today ?? '-') : '-',
+    todayCount: formatDelta(created?.delta),
+    week: created ? String(created.last7DaysTotal ?? '-') : '-',
+    month: deleted ? String(deleted.today ?? '-') : '-',
+    monthCount: formatDelta(deleted?.delta),
+    total: deleted ? String(deleted.total ?? '-') : '-',
+  }
+}
+
+/**
+ * 대시보드 카드 데이터 훅
+ *  - /statics 호출해서 카드 5개 한 번에 구성
+ *  - 차트 훅처럼: axios 호출 → 타입 지정 → 매핑 → 화면용 데이터 반환
+ */
 export function useCardData() {
-    const [data, setData] = useState<DashboardData | null>(null)
-    const [error, setError] = useState<string | null>(null)
+  const [data, setData] = useState<DashboardData | null>(null)
+  const [error, setError] = useState<string | null>(null)
+  const [loading, setLoading] = useState<boolean>(true)
 
-    useEffect(() => {
-        const fetchData = async () => {
-            try {
-                const response = await axiosInstance.get('/statics')
-                const data = response as any
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        setLoading(true)
 
-                setData({
-                    visitor: {
-                        today: String(data?.visitor?.today ?? '-'),
-                        todayCount: data?.visitor?.delta != null && data?.visitor?.delta !== 0 ? (data?.visitor?.delta >= 0 ? `+${data?.visitor?.delta}` : `${data?.visitor?.delta}`) : '-',
-                        week: String(data?.visitor?.last7DaysTotal ?? '-'),
-                        month: String(data?.visitor?.thisMonthTotal ?? '-'),
-                        monthCount: '',
-                        total: String(data?.visitor?.total ?? '-'),
-                    },
-                    download: {
-                        today: String(data?.download?.today ?? '-'),
-                        todayCount: data?.download?.delta != null && data?.download?.delta !== 0 ? (data?.download?.delta >= 0 ? `+${data?.download?.delta}` : `${data?.download?.delta}`) : '-',
-                        week: String(data?.download?.last7DaysTotal ?? '-'),
-                        month: String(data?.download?.thisMonthTotal ?? '-'),
-                        monthCount: '',
-                        total: String(data?.download?.total ?? '-'),
-                    },
-                    account: {
-                        today: String(data?.account?.created?.today ?? '-'),
-                        todayCount: data?.account?.created?.delta != null && data?.account?.created?.delta !== 0 ? (data?.account?.created?.delta >= 0 ? `+${data?.account?.created?.delta}` : `${data?.account?.created?.delta}`) : '-',
-                        week: String(data?.account?.created?.last7DaysTotal ?? '-'),
-                        month: String(data?.account?.deleted?.today ?? '-'),
-                        monthCount: data?.account?.deleted?.delta != null && data?.account?.deleted?.delta !== 0 ? (data?.account?.deleted?.delta >= 0 ? `+${data?.account?.deleted?.delta}` : `${data?.account?.deleted?.delta}`) : '-',
-                        total: String(data?.account?.deleted?.total ?? '-'),
-                    },
-                    stories: {
-                        today: String(data?.stories?.created?.today ?? '-'),
-                        todayCount: data?.stories?.created?.delta != null && data?.stories?.created?.delta !== 0 ? (data?.stories?.created?.delta >= 0 ? `+${data?.stories?.created?.delta}` : `${data?.stories?.created?.delta}`) : '-',
-                        week: String(data?.stories?.created?.total ?? '-'),
-                        month: String(data?.stories?.deleted?.today ?? '-'),
-                        monthCount: data?.stories?.deleted?.delta != null && data?.stories?.deleted?.delta !== 0 ? (data?.stories?.deleted?.delta >= 0 ? `+${data?.stories?.deleted?.delta}` : `${data?.stories?.deleted?.delta}`) : '-',
-                        total: String(data?.stories?.deleted?.total ?? '-'),
-                    },
-                    characters: {
-                        today: String(data?.characters?.created?.today ?? '-'),
-                        todayCount: data?.characters?.created?.delta != null && data?.characters?.created?.delta !== 0 ? (data?.characters?.created?.delta >= 0 ? `+${data?.characters?.created?.delta}` : `${data?.characters?.created?.delta}`) : '-',
-                        week: String(data?.characters?.created?.total ?? '-'),
-                        month: String(data?.characters?.deleted?.today ?? '-'),
-                        monthCount: data?.characters?.deleted?.delta != null && data?.characters?.deleted?.delta !== 0 ? (data?.characters?.deleted?.delta >= 0 ? `+${data?.characters?.deleted?.delta}` : `${data?.characters?.deleted?.delta}`) : '-',
-                        total: String(data?.characters?.deleted?.total ?? '-'),
-                    },
-                })
-            } catch (error) {
-                setError('오류')
-            }
-        }
+        // axiosInstance 응답 인터셉터가 data만 반환한다고 가정
+        // (실제론 AxiosResponse<T> 타입이지만, 런타임은 T 이므로 한 번 캐스팅)
+        const res = await axiosInstance.get<DashboardSummaryApiResponse>('/statics')
+        const apiData = res as unknown as DashboardSummaryApiResponse
 
-        fetchData()
-    }, [])
+        setData({
+          visitor: mapVisitorDownload(apiData.visitor),
+          download: mapVisitorDownload(apiData.download),
+          account: mapAccountStoriesCharacters(apiData.account),
+          stories: mapAccountStoriesCharacters(apiData.stories),
+          characters: mapAccountStoriesCharacters(apiData.characters),
+        })
+      } catch (e) {
+        setError('오류')
+      } finally {
+        setLoading(false)
+      }
+    }
 
-    return { data, error }
+    fetchData()
+  }, [])
+
+  return { data, error, loading }
 }
 
-// detail 페이지 카드 데이터
-export function useDetailData(type: 'visitor' | 'download' | 'account' | 'stories' | 'characters') {
-    const [data, setData] = useState<DashboardDataDetails | null>(null)
-    const [error, setError] = useState<string | null>(null)
+/**
+ * 상세 페이지에서 사용할 타입
+ */
+export type DashboardDetailType =
+  | 'visitor'
+  | 'download'
+  | 'account'
+  | 'stories'
+  | 'characters'
 
-    useEffect(() => {
-        const fetchDetailData = async () => {
-            try {
-                const response = await axiosInstance.get(`/statics/${type}`)
-                const detailData = response as any
+/**
+ * detail 페이지 카드 데이터 훅
+ *  - /statics/:type 에서 이미 카드 형태(DashboardDataDetails)로 내려온다고 가정
+ *  - 차트 훅이랑 느낌 맞게: axios → 타입 지정 후 그대로 set
+ */
+export function useDetailData(type: DashboardDetailType) {
+  const [data, setData] = useState<DashboardDataDetails | null>(null)
+  const [error, setError] = useState<string | null>(null)
+  const [loading, setLoading] = useState<boolean>(true)
 
-                setData(detailData)
-            } catch (error) {
-                setError('오류')
-            }
-        }
+  useEffect(() => {
+    const fetchDetailData = async () => {
+      try {
+        setLoading(true)
 
-        fetchDetailData()
-    }, [type])
+        const res = await axiosInstance.get<DashboardDataDetails>(`/statics/${type}`)
+        const detailData = res as unknown as DashboardDataDetails
 
-    return { data, error }
+        setData(detailData)
+      } catch (e) {
+        setError('오류')
+      } finally {
+        setLoading(false)
+      }
+    }
+
+    fetchDetailData()
+  }, [type])
+
+  return { data, error, loading }
 }

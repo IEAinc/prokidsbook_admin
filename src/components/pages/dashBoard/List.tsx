@@ -48,7 +48,7 @@ const List: React.FC<ListProps> = ({ name, headers }) => {
         <div className="w-[250px]">
             <div className="flex justify-between items-center mb-3 gap-5">
                 {/* title */}
-                <h2 className="text-l font-bold inline-flex items-center bg-primary-main">월별 통계</h2>
+                <h2 className="text-l font-bold inline-flex items-center">월별 통계</h2>
 
                 {/* selectbox */}
                 <div className="flex items-center">

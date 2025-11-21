@@ -35,34 +35,34 @@ import NotFound from './pages/404'
 
 function App() {
   return (
-        <Routes>
-            <Route index element={<Login />} />
-            <Route path="*" element={<NotFound />} />
-            <Route element={<Layout />}>
-            <Route path="/dashboard" element={<Dashboard />} />
-              <Route path="/dashboard/visitor" element={<VisitorCount />} />
-              <Route path="/dashboard/download" element={<DownloadCount />} />
-              <Route path="/dashboard/user" element={<UserStatus />} />
-              <Route path="/dashboard/story" element={<StoryStatus />} />
-              <Route path="/dashboard/character" element={<CharacterStatus />} />
-              <Route path="/users/management" element={<UserManagement />} />
-              <Route path="/users/detail/:id" element={<UserDetail />} />
-              <Route path="/users/images/:id" element={<ImageDetail />} />
-              <Route path="/users/withdrawn" element={<UserWithdrawn />} />
-              <Route path="/inquiries" element={<Inquiries />} />
-              <Route path="/inquiries/:id" element={<InquiriesDetail />} />
-              <Route path="/images/characters" element={<Characters />} />
-              <Route path="/images/illustrations" element={<Illustrations />} />
-              <Route path="/prompts/user" element={<UserPrompts />} />
-              <Route path="/prompts/gpt" element={<GPTPrompts />} />
-              <Route path="/prompts/user/detail/:id" element={<UserPromptsDetail />} />
-              <Route path="/prompts/gpt/detail/:id" element={<GPTPromptsDetail />} />
-              <Route path="/prompts/trans" element={<WordTransformation />} />
-              <Route path="/prompts/banned" element={<BannedWordManage />} />
-              <Route path="/notices" element={<Notices />} />
-              <Route path="/notices/detail/:id" element={<NoticeDetail />} />
-          </Route>
-        </Routes>
+    <Routes>
+      <Route index element={<Login />} />
+      <Route path="*" element={<NotFound />} />
+      <Route element={<Layout />}>
+        <Route path="/dashboard" element={<Dashboard />} />
+        <Route path="/dashboard/visitor" element={<VisitorCount />} />
+        <Route path="/dashboard/download" element={<DownloadCount />} />
+        <Route path="/dashboard/user" element={<UserStatus />} />
+        <Route path="/dashboard/story" element={<StoryStatus />} />
+        <Route path="/dashboard/character" element={<CharacterStatus />} />
+        <Route path="/users/management" element={<UserManagement />} />
+        <Route path="/users/detail/:id" element={<UserDetail />} />
+        <Route path="/users/images/:id" element={<ImageDetail />} />
+        <Route path="/users/withdrawn" element={<UserWithdrawn />} />
+        <Route path="/inquiries" element={<Inquiries />} />
+        <Route path="/inquiries/:id" element={<InquiriesDetail />} />
+        <Route path="/images/characters" element={<Characters />} />
+        <Route path="/images/illustrations" element={<Illustrations />} />
+        <Route path="/prompts/user" element={<UserPrompts />} />
+        <Route path="/prompts/gpt" element={<GPTPrompts />} />
+        <Route path="/prompts/user/detail/:id" element={<UserPromptsDetail />} />
+        <Route path="/prompts/gpt/detail/:id" element={<GPTPromptsDetail />} />
+        <Route path="/prompts/trans" element={<WordTransformation />} />
+        <Route path="/prompts/banned" element={<BannedWordManage />} />
+        <Route path="/notices" element={<Notices />} />
+        <Route path="/notices/detail/:id" element={<NoticeDetail />} />
+      </Route>
+    </Routes>
   )
 }
 

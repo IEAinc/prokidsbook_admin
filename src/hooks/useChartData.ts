@@ -32,9 +32,8 @@ const useChartData = ({ type, periodType, date }: Params) => {
                     ...(date && { date }),
                 }
 
-                // response 자체가 데이터이므로 직접 사용
                 const response = await axiosInstance.get<ChartData>(`/statics/${type}/chart`, { params })
-                setChartData(response as ChartData) // response를 직접 사용
+                setChartData(response as ChartData) // response
             } catch (err) {
                 setError((err as any)?.response?.data?.message || '오류 발생')
             } finally {
