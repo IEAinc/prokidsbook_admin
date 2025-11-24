@@ -2,7 +2,7 @@ import { useState, useEffect } from 'react'
 import axiosInstance from '../api/axios'
 
 /* statics 응답 타입 */
-interface SummaryCountData {
+export interface SummaryCountData {
   today: number
   last7DaysTotal: number
   thisMonthTotal: number
@@ -50,6 +50,13 @@ export interface DashboardData {
   account: DashboardDataDetails
   stories: DashboardDataDetails
   characters: DashboardDataDetails
+}
+
+/* 상세 페이지 데이터 타입 */
+export interface DashboardDetailData {
+  common?: SummaryCountData
+  created?: SummaryCountData
+  deleted?: SummaryCountData
 }
 
 /* delta 포맷팅 */
@@ -148,7 +155,7 @@ export type DashboardDetailType =
 
 /* detail 페이지 카드 데이터 훅 */
 export function useDetailData(type: DashboardDetailType) {
-  const [data, setData] = useState<DashboardDataDetails | null>(null)
+  const [data, setData] = useState<DashboardDetailData | null>(null)
   const [error, setError] = useState<string | null>(null)
   const [loading, setLoading] = useState<boolean>(true)
 
@@ -157,8 +164,8 @@ export function useDetailData(type: DashboardDetailType) {
       try {
         setLoading(true)
 
-        const res = await axiosInstance.get<DashboardDataDetails>(`/statics/${type}`)
-        const detailData = res as unknown as DashboardDataDetails
+        const res = await axiosInstance.get<DashboardDetailData>(`/statics/${type}`)
+        const detailData = res as unknown as DashboardDetailData
 
         setData(detailData)
       } catch (e) {
