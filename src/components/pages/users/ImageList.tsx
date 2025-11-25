@@ -1,6 +1,8 @@
-import {useState,useMemo} from 'react';
+// 이미지 상세 -> 캐릭터 조회 시 리스트
 
+import { useState } from 'react';
 import Checkbox from '../../common/forms/Checkbox';
+
 interface ImageItem {
   charcNo: number;
   user_id: string;
@@ -9,110 +11,116 @@ interface ImageItem {
   time_stamp: string;
   ban: boolean;
 }
+
 interface DateGroupedImageList {
   date: string;
   items: ImageItem[];
 }
 
 interface ImageListProps {
-  imageList: DateGroupedImageList[]; // 변경된 타입
+  imageList: DateGroupedImageList[];
   selectedMode: boolean;
-  onImageClick?: (userId: any, charcId:any) => void;
+  onImageClick?: (userId: any, charcId: any) => void;
 }
 
 const ImageList = ({ imageList, selectedMode, onImageClick }: ImageListProps) => {
   const [checkedItems, setCheckedItems] = useState<{ [key: string]: boolean }>({});
 
-  const handleCheckboxChange = (id: string, checked: boolean) => {
+  /** 개별 체크 */
+  const handleCheckboxChange = (charcNo: number, checked: boolean) => {
     setCheckedItems((prev) => ({
       ...prev,
-      [id]: checked,
+      [charcNo]: checked,
     }));
   };
 
+  /** 날짜별 전체 선택 */
   const handleSelectAllChange = (checked: boolean, items: ImageItem[]) => {
-    const newCheckedItems = { ...checkedItems };
-    items.forEach((item) => {
-      newCheckedItems[item.charcNo] = checked;
-    });
-    setCheckedItems(newCheckedItems);
+    const updated = { ...checkedItems };
+    items.forEach((item) => (updated[item.charcNo] = checked));
+    setCheckedItems(updated);
   };
 
-  const handleClick = (userId: any,charcId:any) => {
-    onImageClick?.(userId,charcId);
+  /** 클릭 시 콜백 */
+  const handleClick = (userId: any, charcNo: any) => {
+    onImageClick?.(userId, charcNo);
   };
 
   return (
     <div>
       {imageList.map(({ date, items }) => {
-        const allChecked = items.length > 0 && items.every((item) => checkedItems[item.charcNo]);
+        const allChecked =
+          items.length > 0 &&
+          items.every((item) => checkedItems[item.charcNo] === true);
+
         return (
-          <div key={date}>
-            {/* 날짜 & 전체 체크박스 */}
-            <div className="flex justify-between items-center">
+          <div key={date} className="mb-4">
+            {/* ===== 날짜 헤더 ===== */}
+            <div className="flex justify-between items-center py-2">
+              {/* 날짜 영역 */}
               <div className="flex items-center gap-4">
-                <p>{date}</p>
-                <p>
+                <p className="font-semibold">{date}</p>
+                <p className="text-gray-500">
                   <span>{items.length}</span>개
                 </p>
               </div>
-              {/*{selectedMode && (
+
+              {/* === 전체 선택 체크박스 === */}
+              {selectedMode && (
                 <Checkbox
-                  id={`${id}-${date}-select-all`}
+                  id={`select-all-${date}`}
                   checked={allChecked}
                   onChange={(checked) => handleSelectAllChange(checked, items)}
                 />
-              )}*/}
+              )}
             </div>
 
-            {/* 이미지 리스트 */}
+            {/* ===== 이미지 리스트 ===== */}
             <div className="p-4">
               <ul className="grid grid-cols-8 gap-2">
-                {items.map((item) => (
-                  <li key={`${item.charcNo}-${item.time_stamp}`}
-                    onClick={() =>
-                      selectedMode
-                        ? handleClick(item.user_id, item.charcNo.toString())
-                        : handleClick(item.user_id, item.charcNo.toString())
-                    }
-                    className="relative border border-gray-200 rounded aspect-square overflow-hidden"
-                  >
-                    {/* 체크박스 */}
-                    {selectedMode && (
-                      <div
-                        onClick={(e) => e.stopPropagation()}
-                        className="absolute top-2 left-2 z-10 cursor-pointer"
-                      >
-                        <Checkbox
-                          id={`${item.charcNo}-checkbox`}
-                          checked={checkedItems[item.charcNo] || false}
-                          onChange={(checked) =>
-                            handleCheckboxChange(item.charcNo.toString(), checked)
-                          }
-                        />
-                      </div>
-                    )}
+                {items.map((item) => {
+                  const isChecked = checkedItems[item.charcNo] || false;
+                  return (
+                    <li
+                      key={`${item.charcNo}-${item.time_stamp}`}
+                      className="relative border border-gray-200 rounded aspect-square overflow-hidden cursor-pointer"
+                      onClick={() => handleClick(item.user_id, item.charcNo)}
+                    >
+                      {/* === 개별 체크박스 === */}
+                      {selectedMode && (
+                        <div
+                          className="absolute top-2 left-2 z-10"
+                          onClick={(e) => e.stopPropagation()} // 이미지 클릭 이벤트 방지
+                        >
+                          <Checkbox
+                            id={`checkbox-${item.charcNo}`}
+                            checked={isChecked}
+                            onChange={(checked) => handleCheckboxChange(item.charcNo, checked)}
+                          />
+                        </div>
+                      )}
 
-                    {/* 이미지 또는 Ban 표시 */}
-                    {!item.ban ? (
-                      <img
-                        src={item.img_url}
-                        alt={item.alt || 'image'}
-                        className={`w-full h-full object-contain transition-transform duration-200 ${
-                          selectedMode && checkedItems[item.charcNo] ? 'scale-90' : 'scale-100'
-                        }`}
-                      />
-                    ) : (
-                      <div
-                        className={`w-full h-full bg-rose-50 flex justify-center items-center ${
-                          selectedMode && checkedItems[item.charcNo] ? 'scale-90' : 'scale-100'
-                        }`}
-                      >
-                        ban
-                      </div>
-                    )}
-                  </li>
-                ))}
+                      {/* === 이미지 === */}
+                      {!item.ban ? (
+                        <img
+                          src={item.img_url}
+                          alt={item.alt || 'image'}
+                          className={`w-full h-full object-contain transition-transform duration-200 ${
+                            selectedMode && isChecked ? 'scale-90' : 'scale-100'
+                          }`}
+                        />
+                      ) : (
+                        <div
+                          className={`w-full h-full bg-rose-50 flex justify-center items-center transition-transform ${
+                            selectedMode && isChecked ? 'scale-90' : 'scale-100'
+                          }`}
+                        >
+                          ban
+                        </div>
+                      )}
+                    </li>
+                  );
+                })}
               </ul>
             </div>
           </div>
@@ -121,4 +129,5 @@ const ImageList = ({ imageList, selectedMode, onImageClick }: ImageListProps) =>
     </div>
   );
 };
+
 export default ImageList;

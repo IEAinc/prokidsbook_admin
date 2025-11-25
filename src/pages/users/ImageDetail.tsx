@@ -1,11 +1,13 @@
-import { useEffect,useState, useMemo } from 'react';
-import {useNavigate} from "react-router-dom";
+// 이미지 상세 페이지
+
+import { useEffect, useState, useMemo } from 'react';
+import { useNavigate } from "react-router-dom";
 import { subDays } from "date-fns";
 /* 이미지 */
 import arrow_l from "../../assets/images/arrow_l.svg";
 
 /* 아이콘 */
-import { IoCheckmark } from "react-icons/io5";
+// import { IoCheckmark } from "react-icons/io5";
 
 /* 컴포넌트 */
 import SearchFilter from "../../components/pages/users/ImageSearchFilter.tsx";
@@ -13,19 +15,19 @@ import ImageList from "../../components/pages/users/ImageList.tsx";
 import StoriesList from "../../components/pages/users/StoriesList.tsx";
 import Btn from "../../components/common/buttons/Btn.tsx";
 
-/* 임시 이미지 */
-import ch_img from "./../../assets/images/ch_img_active.svg"
-import ch_img1 from "./../../assets/images/ch_img2.png"
-import ch_img_sm from './../../assets/images/ch_sm_img.png'
-import ch_img_md from './../../assets/images/ch_md_img.png'
-import ch_story from './../../assets/images/ch_story.png'
+// /* 임시 이미지 */
+// import ch_img from "./../../assets/images/ch_img_active.svg"
+// import ch_img1 from "./../../assets/images/ch_img2.png"
+// import ch_img_sm from './../../assets/images/ch_sm_img.png'
+// import ch_img_md from './../../assets/images/ch_md_img.png'
+// import ch_story from './../../assets/images/ch_story.png'
 
-/* 모달 */
-import ImageDetailModal from "../../components/pages/users/ImageDetailModal.tsx";
-import FairyTale from "../../components/pages/users/swiperContents/FairyTale.tsx";
-import CustomModalFariy from "../../components/common/modals/CustomModalFairy.tsx";
-import { useCustomToast, CustomToastContainer } from '../../components/common/modals/CustomToast';
-import { toast } from 'react-toastify';
+// /* 모달 */
+// import ImageDetailModal from "../../components/pages/users/ImageDetailModal.tsx";
+// import FairyTale from "../../components/pages/users/swiperContents/FairyTale.tsx";
+// import CustomModalFariy from "../../components/common/modals/CustomModalFairy.tsx";
+// import { useCustomToast, CustomToastContainer } from '../../components/common/modals/CustomToast';
+// import { toast } from 'react-toastify';
 
 /* 캐릭터 관련 */
 import CharcImageList from "../../mock-data/charc-list.json";
@@ -34,7 +36,7 @@ import CustomModalCharc from "../../components/common/modals/CustomModalCharc.ts
 
 /* 동화 관련 */
 import FairyImageList from "../../mock-data/fairy_list.json"
-import FairyDetail from "../../mock-data/fairy_detail.json"
+// import FairyDetail from "../../mock-data/fairy_detail.json"
 import CustomModalFairy from "../../components/common/modals/CustomModalFairy.tsx"; // toast.dismiss() 사용을 위해 추가
 
 /* 인터페이스 정의 */
@@ -50,9 +52,9 @@ export default function ImageDetail() {
   const [isCharcModalOpen, setIsCharcModalOpen] = useState(false); // 모달창 열고 닫음 확인을 위함
   const [isFairyModalOpen, setIsFairyModalOpen] = useState(false); // 모달창 열고 닫음 확인을 위함
   const [charList, setCharList] = useState<any>({});
-  const [fairyId, setFairyId] = useState<string| number | null>(null);
+  const [fairyId, setFairyId] = useState<string | number | null>(null);
   const [fairyList, setFairyList] = useState<any>({});
-  const [userId, setUserId] = useState<string| number | null>(null);
+  const [userId, setUserId] = useState<string | number | null>(null);
 
   /* 검색조건 설정 */
   // 상위 상태
@@ -101,9 +103,9 @@ export default function ImageDetail() {
   /* 1-1. 캐릭터 리스트(작업중) */
   const [selectedMode, setSelectedMode] = useState(false);
   /* 1-2. 캐릭터 팝업 (일부 완료) */
-  const handleOpenModalCharc = (userId:any,charcId:any) => {
+  const handleOpenModalCharc = (userId: any, charcId: any) => {
     /* 예시 데이터 (userID,charId값 일치 시 해당 데이터를 찾아 불러옴) */
-    if(userId === 'user1' && charcId === '9007199254740991'){
+    if (userId === 'user1' && charcId === '9007199254740991') {
       setIsCharcModalOpen(true);
       setCharList(CharcDetail);
     } else {
@@ -118,10 +120,10 @@ export default function ImageDetail() {
     setCharList({});
   };
   /* 2-2. 동화 팝업 (일부 완료) */
-  const handleOpenModalFairy = (userId:any,storyNo:any) => {
-    console.log('sdfsfd',userId,storyNo);
+  const handleOpenModalFairy = (userId: any, storyNo: any) => {
+    console.log('sdfsfd', userId, storyNo);
     /* 예시 데이터 (userID,charId값 일치 시 해당 데이터를 찾아 불러옴) */
-    if(userId === 'user1' && storyNo === 10001){
+    if (userId === 'user1' && storyNo === 10001) {
       setIsFairyModalOpen(true);
       setFairyList(FairyImageList);
     } else {
@@ -151,7 +153,7 @@ export default function ImageDetail() {
             size="sm"
             pointColor="red"
             color={filterBan ? "red" : undefined}
-            // onClick={toggleBanFilter}
+          // onClick={toggleBanFilter}
           >
             Ban
           </Btn>
@@ -183,14 +185,14 @@ export default function ImageDetail() {
       {activeType === '캐릭터' ? (
         <ImageList
           imageList={CharcImageList} // ImageItem[] 타입으로 전달
-          selectedMode={false}
-          onImageClick={(userId:any,charcId:any) => handleOpenModalCharc(userId, charcId)}
+          selectedMode={selectedMode}
+          onImageClick={(userId: any, charcId: any) => handleOpenModalCharc(userId, charcId)}
         />
       ) : (
         <StoriesList
           storyList={FairyImageList}
-          selectedMode={false}
-          onStoryClick={(userId:any,storyNo:any) => handleOpenModalFairy(userId, storyNo)}
+          selectedMode={selectedMode}
+          onStoryClick={(userId: any, storyNo: any) => handleOpenModalFairy(userId, storyNo)}
         />
       )}
 
@@ -201,7 +203,7 @@ export default function ImageDetail() {
         userData={charList}
         onClose={handleCharcModalClose}
         sidebarWidth='300px'
-        onStoryClick={(storyNo:number) => {
+        onStoryClick={(storyNo: number) => {
           console.log('상위 컴포넌트에서 클릭한 동화 번호:', storyNo);
           /* 캐릭터 모달창 닫기 */
           setFairyId(storyNo); // 열었던 id 저장
@@ -215,7 +217,7 @@ export default function ImageDetail() {
         userData={fairyList}
         onClose={handleFairyModalClose}
         sidebarWidth='300px'
-        onUserClick={(charcNo:number) => {
+        onUserClick={(charcNo: number) => {
           console.log(charcNo);
           console.log('상위 컴포넌트에서 클릭한 동화 번호')
           setUserId(charcNo);
