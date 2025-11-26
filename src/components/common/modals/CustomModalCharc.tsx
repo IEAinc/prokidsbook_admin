@@ -1,34 +1,43 @@
-// 캐릭터 상세 모달
+/**
+ * @file CustomModalCharc.tsx
+ * @description 회원 관리 > 생성 이미지 관리 > 캐릭터 상세 모달
+ */
+import { useEffect } from 'react'
+import { format, parseISO, addHours } from 'date-fns'
+import { HiChevronRight, HiX } from "react-icons/hi"
 
-import { useEffect } from 'react';
-import { format, parseISO, addHours } from 'date-fns';
-/* 아이콘 */
-import { HiChevronRight, HiX } from "react-icons/hi";
-
-/* 컴포넌트 */
 import Btn from '../buttons/Btn.tsx'
+
 interface UserData {
-  user_id: string;
-  user_name: string;
-  user_img: string;
-  charc_no: number;
-  charc_dt: string;
-  charc_prompt: string;
-  charc_img_url: string;
+  user_id: string
+  user_name: string
+  user_img: string
+  charc_no: number
+  charc_dt: string
+  charc_prompt: string
+  charc_img_url: string
   story_list: {
-    story_no: number;
-    story_title: string;
-  }[];
+    story_no: number
+    story_title: string
+  }[]
 }
 
 interface CustomModalCharcProps {
-  isOpen: Boolean;
-  onClose: () => void;
-  isBanned?: boolean;
-  onStoryClick?: (storyNo: number) => void;
-  sidebarWidth?: string; // 사이드바 너비 (기본값 설정 가능)
-  activeStoryId?: string | null;  // 현재 활성화된 스토리 ID
-  userData: UserData;
+  isOpen: Boolean
+  isBanned?: boolean
+  sidebarWidth?: string
+  activeStoryId?: string | null
+  userData: UserData
+  onClose: () => void
+  onStoryClick?: (storyNo: number) => void
+}
+
+
+/* 날짜 변환 TODO: util로 이동 */
+const formatDate = (dt: string) => {
+  const date = parseISO(dt)
+  const formatted = format(date, 'yyyy-MM-dd hh:mm:ss')
+  return formatted
 }
 
 const CustomModalCharc = ({
@@ -43,30 +52,19 @@ const CustomModalCharc = ({
   useEffect(() => {
     if (isOpen) {
       // 모달이 열릴 때 body 스크롤 막기
-      document.body.style.overflow = 'hidden';
+      document.body.style.overflow = 'hidden'
     } else {
       // 모달이 닫힐 때 body 스크롤 복원
-      document.body.style.overflow = 'unset';
+      document.body.style.overflow = 'unset'
     }
 
     // 컴포넌트가 언마운트될 때 스크롤 복원
     return () => {
-      document.body.style.overflow = 'unset';
-    };
-  }, [isOpen]);
+      document.body.style.overflow = 'unset'
+    }
+  }, [isOpen])
 
-  if (!isOpen) return null;
-
-  if (!isOpen) return null;
-
-  /* 날짜 변환 */
-
-
-  const formatDate = (dt: string) => {
-    const date = parseISO(dt);
-    const formatted = format(date, 'yyyy-MM-dd hh:mm:ss');
-    return formatted;
-  }
+  if (!isOpen) return null
 
   return (
     <div className="fixed inset-0 flex z-50">
@@ -130,7 +128,7 @@ const CustomModalCharc = ({
                   `
                     }
                     onClick={() => {
-                      onStoryClick?.(story.story_no);
+                      onStoryClick?.(story.story_no)
                     }}
                   >
                     <span className="text-sm font-bold">{story.story_title}</span>
@@ -163,7 +161,7 @@ const CustomModalCharc = ({
         </div>
       </div>
     </div>
-  );
-};
+  )
+}
 
-export default CustomModalCharc;
+export default CustomModalCharc

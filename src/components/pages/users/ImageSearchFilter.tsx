@@ -1,37 +1,39 @@
-import React, { useState } from 'react'
-import { subDays } from 'date-fns';
-/* 아이콘 */
-import {MdOutlineAutorenew} from "react-icons/md";
-import {IoSearch} from "react-icons/io5";
+/**
+ * @file ImageSearchFilter.tsx
+ * @description 이미지 검색 필터
+ */
+import { subDays } from 'date-fns'
+import { MdOutlineAutorenew } from "react-icons/md"
+import { IoSearch } from "react-icons/io5"
 /* 컴포넌트 */
-import CustomDatePicker from "../../common/datePickers/DatePicker.tsx";
-import Btn from "../../common/buttons/Btn.tsx";
+import CustomDatePicker from "../../common/datePickers/DatePicker.tsx"
+import Btn from "../../common/buttons/Btn.tsx"
 import Input from "../../common/forms/Input.tsx"
-import Select from "../../common/forms/Select.tsx";
+import Select from "../../common/forms/Select.tsx"
 
 interface SearchFilterProps {
-  searchQuery: string;
-  setSearchQuery: (value: string) => void;
-  searchType: string;
-  setSearchType: (type: string) => void;
-  startDate: Date | null;
-  endDate: Date | null;
-  setDates: (start: Date | null, end: Date | null) => void;
-  onSearch: () => void;
-  onReset: () => void;
+  searchQuery: string
+  searchType: string
+  startDate: Date | null
+  endDate: Date | null
+  setSearchQuery: (value: string) => void
+  setSearchType: (type: string) => void
+  setDates: (start: Date | null, end: Date | null) => void
+  onSearch: () => void
+  onReset: () => void
 }
 
 const SearchFilter: React.FC<SearchFilterProps> = ({
-                                                     searchQuery,
-                                                     setSearchQuery,
-                                                     searchType,
-                                                     setSearchType,
-                                                     startDate,
-                                                     endDate,
-                                                     setDates,
-                                                     onSearch,
-                                                     onReset,
-                                                   }) => {
+  searchQuery,
+  searchType,
+  startDate,
+  endDate,
+  setSearchQuery,
+  setSearchType,
+  setDates,
+  onSearch,
+  onReset,
+}) => {
   return (
     <div>
       <div className="flex justify-end items-center gap-1">
@@ -66,7 +68,7 @@ const SearchFilter: React.FC<SearchFilterProps> = ({
         </div>
       </div>
     </div>
-  );
-};
+  )
+}
 
-export default SearchFilter;
+export default SearchFilter

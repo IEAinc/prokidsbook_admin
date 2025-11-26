@@ -1,25 +1,21 @@
+/**
+ * @file UserDetail.tsx
+ * @description 회원 관리 > 회원 상세 페이지
+ */
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import arrow_l from "../../assets/images/arrow_l.svg";
 
-/* 컴포넌트 */
-import DetailCard from "../../components/pages/users/DetailCard.tsx"
 import CustomDatePicker from "../../components/common/datePickers/DatePicker.tsx";
-import Btn from '../../components/common/buttons/Btn'
-import Input from '../../components/common/forms/Input'
-import Radio from '../../components/common/forms/Radio'
-import Textarea from '../../components/common/forms/Textarea'
-/* 모달 */
-import Modal from '../../components/common/modals/Modal.tsx'
+import Btn from '../../components/common/buttons/Btn';
+import Input from '../../components/common/forms/Input';
+import Radio from '../../components/common/forms/Radio';
+import Textarea from '../../components/common/forms/Textarea';
+import Modal from '../../components/common/modals/Modal.tsx';
+
+import DetailCard from "../../components/pages/users/DetailCard.tsx";
 
 export default function UserDetail() {
-    const navigate = useNavigate()
-
-    const handleGoBack = () => {
-        navigate(-1)
-    }
-
-    /* Usestate */
     const [isModalOpen, setModalOpen] = useState(false); // 팝업
     const [title, setTitle] = useState(""); // 팝업 - 이름
     const [titleError] = useState<string>("");  // 팝업 - 이름: string 타입으로 변경
@@ -31,7 +27,6 @@ export default function UserDetail() {
     const handleContentChange = (value: string) => {
         setContent(value);
 
-        // 유효성 검사
         if (value.length < 1) {
             setError('내용을 입력해주세요.');
         } else {
@@ -39,6 +34,10 @@ export default function UserDetail() {
         }
     };
 
+    const navigate = useNavigate()
+    const handleGoBack = () => {
+        navigate(-1)
+    }
 
     return (
         <div>

@@ -1,6 +1,6 @@
 import { useEffect } from "react"
 import axiosInstance from '../api/axios'
-import { useYearDataStore } from './../stores/useDateState'
+import { useYearDataStore } from '../stores/useDateState'
 
 export function useYearData() {
   const { data, error, setData } = useYearDataStore()

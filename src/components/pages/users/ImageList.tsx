@@ -1,57 +1,75 @@
-// 이미지 상세 -> 캐릭터 조회 시 리스트
-
-import { useState } from 'react';
-import Checkbox from '../../common/forms/Checkbox';
+/**
+ * @file ImageList.tsx
+ * @description 회원 관리 > 생성 이미지 관리 > 캐릭터 이미지 리스트
+ */
+import { useState, useEffect } from 'react'
+import Checkbox from '../../common/forms/Checkbox'
 
 interface ImageItem {
-  charcNo: number;
-  user_id: string;
-  img_url?: string;
-  alt?: string;
-  time_stamp: string;
-  ban: boolean;
+  charcNo: number
+  user_id: string
+  img_url?: string
+  alt?: string
+  time_stamp: string
+  ban: boolean
 }
 
 interface DateGroupedImageList {
-  date: string;
-  items: ImageItem[];
+  date: string
+  items: ImageItem[]
 }
 
 interface ImageListProps {
-  imageList: DateGroupedImageList[];
-  selectedMode: boolean;
-  onImageClick?: (userId: any, charcId: any) => void;
+  imageList: DateGroupedImageList[]
+  selectedMode: boolean
+  onImageClick?: (userId: any, charcId: any) => void
+  onSelectCountChange?: (count: number) => void
 }
 
-const ImageList = ({ imageList, selectedMode, onImageClick }: ImageListProps) => {
-  const [checkedItems, setCheckedItems] = useState<{ [key: string]: boolean }>({});
+const ImageList = ({
+  imageList,
+  selectedMode,
+  onImageClick,
+  onSelectCountChange
+}: ImageListProps) => {
+  const [checkedItems, setCheckedItems] = useState<{ [key: string]: boolean }>({})
 
   /** 개별 체크 */
   const handleCheckboxChange = (charcNo: number, checked: boolean) => {
     setCheckedItems((prev) => ({
       ...prev,
       [charcNo]: checked,
-    }));
-  };
+    }))
+  }
 
   /** 날짜별 전체 선택 */
   const handleSelectAllChange = (checked: boolean, items: ImageItem[]) => {
-    const updated = { ...checkedItems };
-    items.forEach((item) => (updated[item.charcNo] = checked));
-    setCheckedItems(updated);
-  };
+    const updated = { ...checkedItems }
+    items.forEach((item) => (updated[item.charcNo] = checked))
+    setCheckedItems(updated)
+  }
 
-  /** 클릭 시 콜백 */
-  const handleClick = (userId: any, charcNo: any) => {
-    onImageClick?.(userId, charcNo);
-  };
+  /** 카드 클릭 시 동작 분기 */
+  const handleCardClick = (item: ImageItem) => {
+    if (selectedMode) {
+      const current = checkedItems[item.charcNo] || false // 선택 모드 → 체크박스만 토글
+      handleCheckboxChange(item.charcNo, !current)
+      return
+    }
+    onImageClick?.(item.user_id, item.charcNo) // 선택 모드가 아닐 때만 모달 콜백 호출
+  }
+
+  useEffect(() => {
+    const count = Object.values(checkedItems).filter(Boolean).length
+    onSelectCountChange?.(count)
+  }, [checkedItems])
 
   return (
     <div>
       {imageList.map(({ date, items }) => {
         const allChecked =
           items.length > 0 &&
-          items.every((item) => checkedItems[item.charcNo] === true);
+          items.every((item) => checkedItems[item.charcNo] === true)
 
         return (
           <div key={date} className="mb-4">
@@ -64,7 +82,6 @@ const ImageList = ({ imageList, selectedMode, onImageClick }: ImageListProps) =>
                   <span>{items.length}</span>개
                 </p>
               </div>
-
               {/* === 전체 선택 체크박스 === */}
               {selectedMode && (
                 <Checkbox
@@ -74,17 +91,16 @@ const ImageList = ({ imageList, selectedMode, onImageClick }: ImageListProps) =>
                 />
               )}
             </div>
-
             {/* ===== 이미지 리스트 ===== */}
             <div className="p-4">
               <ul className="grid grid-cols-8 gap-2">
                 {items.map((item) => {
-                  const isChecked = checkedItems[item.charcNo] || false;
+                  const isChecked = checkedItems[item.charcNo] || false
                   return (
                     <li
                       key={`${item.charcNo}-${item.time_stamp}`}
                       className="relative border border-gray-200 rounded aspect-square overflow-hidden cursor-pointer"
-                      onClick={() => handleClick(item.user_id, item.charcNo)}
+                      onClick={() => handleCardClick(item)}
                     >
                       {/* === 개별 체크박스 === */}
                       {selectedMode && (
@@ -95,39 +111,38 @@ const ImageList = ({ imageList, selectedMode, onImageClick }: ImageListProps) =>
                           <Checkbox
                             id={`checkbox-${item.charcNo}`}
                             checked={isChecked}
-                            onChange={(checked) => handleCheckboxChange(item.charcNo, checked)}
+                            onChange={(checked) =>
+                              handleCheckboxChange(item.charcNo, checked)
+                            }
                           />
                         </div>
                       )}
-
                       {/* === 이미지 === */}
                       {!item.ban ? (
                         <img
                           src={item.img_url}
                           alt={item.alt || 'image'}
-                          className={`w-full h-full object-contain transition-transform duration-200 ${
-                            selectedMode && isChecked ? 'scale-90' : 'scale-100'
-                          }`}
+                          className={`w-full h-full object-contain transition-transform duration-200 ${selectedMode && isChecked ? 'scale-90' : 'scale-100'
+                            }`}
                         />
                       ) : (
                         <div
-                          className={`w-full h-full bg-rose-50 flex justify-center items-center transition-transform ${
-                            selectedMode && isChecked ? 'scale-90' : 'scale-100'
-                          }`}
+                          className={`w-full h-full bg-rose-50 flex justify-center items-center transition-transform ${selectedMode && isChecked ? 'scale-90' : 'scale-100'
+                            }`}
                         >
-                          ban
+                          생성 실패 이미지
                         </div>
                       )}
                     </li>
-                  );
+                  )
                 })}
               </ul>
             </div>
           </div>
-        );
+        )
       })}
     </div>
-  );
-};
+  )
+}
 
-export default ImageList;
+export default ImageList

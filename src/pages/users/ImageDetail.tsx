@@ -1,140 +1,191 @@
-// 이미지 상세 페이지
+/**
+ * @file ImageDetail.tsx
+ * @description 회원 관리 > 생성 이미지 관리
+ */
+import { useEffect, useState, useMemo } from 'react'
+import { useNavigate, useParams } from "react-router-dom"
+import { subDays } from "date-fns"
+import { toast } from 'react-toastify'; // toast.dismiss() 사용을 위해 추가
+/* 캐릭터 */
+import ImageList from "../../components/pages/users/ImageList.tsx"
+import CustomModalCharc from "../../components/common/modals/CustomModalCharc.tsx"
+/* 동화 */
+import StoriesList from "../../components/pages/users/StoriesList.tsx"
+import CustomModalFairy from "../../components/common/modals/CustomModalFairy.tsx"
 
-import { useEffect, useState, useMemo } from 'react';
-import { useNavigate } from "react-router-dom";
-import { subDays } from "date-fns";
-/* 이미지 */
-import arrow_l from "../../assets/images/arrow_l.svg";
+import Btn from "../../components/common/buttons/Btn.tsx"
+import SearchFilter from "../../components/pages/users/ImageSearchFilter.tsx"
+import { useCustomToast, CustomToastContainer } from '../../components/common/modals/CustomToast';
 
-/* 아이콘 */
-// import { IoCheckmark } from "react-icons/io5";
+import arrow_l from "../../assets/images/arrow_l.svg"
 
-/* 컴포넌트 */
-import SearchFilter from "../../components/pages/users/ImageSearchFilter.tsx";
-import ImageList from "../../components/pages/users/ImageList.tsx";
-import StoriesList from "../../components/pages/users/StoriesList.tsx";
-import Btn from "../../components/common/buttons/Btn.tsx";
-
-// /* 임시 이미지 */
-// import ch_img from "./../../assets/images/ch_img_active.svg"
-// import ch_img1 from "./../../assets/images/ch_img2.png"
-// import ch_img_sm from './../../assets/images/ch_sm_img.png'
-// import ch_img_md from './../../assets/images/ch_md_img.png'
-// import ch_story from './../../assets/images/ch_story.png'
-
-// /* 모달 */
-// import ImageDetailModal from "../../components/pages/users/ImageDetailModal.tsx";
-// import FairyTale from "../../components/pages/users/swiperContents/FairyTale.tsx";
-// import CustomModalFariy from "../../components/common/modals/CustomModalFairy.tsx";
-// import { useCustomToast, CustomToastContainer } from '../../components/common/modals/CustomToast';
-// import { toast } from 'react-toastify';
-
-/* 캐릭터 관련 */
-import CharcImageList from "../../mock-data/charc-list.json";
+import CharcImageList from "../../mock-data/charc-list.json" //임시 데이터 - api 연결 시 삭제
 import CharcDetail from "../../mock-data/charc_detail.json"
-import CustomModalCharc from "../../components/common/modals/CustomModalCharc.tsx";
-
-/* 동화 관련 */
 import FairyImageList from "../../mock-data/fairy_list.json"
-// import FairyDetail from "../../mock-data/fairy_detail.json"
-import CustomModalFairy from "../../components/common/modals/CustomModalFairy.tsx"; // toast.dismiss() 사용을 위해 추가
-
-/* 인터페이스 정의 */
+import FairyDetail from "../../mock-data/fairy_detail.json"
 
 export default function ImageDetail() {
+  const [charList, setCharList] = useState<any>({}) //캐릭터 리스트
+  const [fairyList, setFairyList] = useState<any>({}) //동화 리스트
+  const [isCharcModalOpen, setIsCharcModalOpen] = useState(false) //캐릭터 모달
+  const [isFairyModalOpen, setIsFairyModalOpen] = useState(false) //동화 모달
+  const [fairyId, setFairyId] = useState<string | number | null>(null) //동화 ID
+  const [filterBan, setFilterBan] = useState<boolean>(false) //벤 이미지 필터
+  const [selectedCount, setSelectedCount] = useState(0)
+  const { showDeleteToast } = useCustomToast()
+  /* 검색 */
+  const [activeType, setActiveType] = useState<"캐릭터" | "동화">("캐릭터")  //실제 렌더링
+  const [searchType, setSearchType] = useState<"캐릭터" | "동화">("캐릭터") //selectbox 값
+  const [selectedMode, setSelectedMode] = useState(false) //선택 모드
+  const [startDate, setStartDate] = useState<Date | null>(subDays(new Date(), 1)) //시작 날짜
+  const [endDate, setEndDate] = useState<Date | null>(new Date()) //종료 날짜
+  const [searchQuery, setSearchQuery] = useState("") //검색할 프롬프트
+
+  const { id } = useParams() // 유저 ID
+  const userId = id
+
+  const setDates = (start: Date | null, end: Date | null) => {
+    setStartDate(start)
+    setEndDate(end)
+  }
+
+  const handleSearch = () => {
+    setActiveType(searchType)
+  }
+
+  const handleReset = () => {
+    setSearchQuery("")
+    setSearchType("캐릭터")
+    setStartDate(subDays(new Date(), 1))
+    setEndDate(new Date())
+  }
+
+  /* userId 기준 이미지 목록 필터링 (api연결 시 수정) */
+  const filteredCharcList = useMemo(() => {
+    if (!userId) return []
+
+    return CharcImageList
+      .map(group => ({
+        date: group.date,
+        items: group.items
+          .filter(item => item.user_id === userId)
+          .filter(item => (filterBan ? item.ban === true : true))  // 벤 이미지 필터링
+      }))
+      .filter(group => group.items.length > 0)
+  }, [userId, filterBan])
+
+  const filteredFairyList = useMemo(() => {
+    if (!userId) return [];
+
+    return FairyImageList
+      .map(group => {
+        const filteredItems = group.items
+          .map(story => {
+            const filteredImages = filterBan
+              ? story.story_img_list.filter(img => img.ban === true) // 벤 이미지 필터링
+              : story.story_img_list;
+
+            return {
+              ...story,
+              story_img_list: filteredImages
+            };
+          })
+          .filter(story => story.story_img_list.length > 0); // ban 이미지 0개 → 제거
+
+        return {
+          date: group.date,
+          items: filteredItems
+        };
+      })
+      .filter(group => group.items.length > 0); // 날짜 그룹도 비면 제거
+  }, [userId, filterBan]);
+
+  /* 모달 핸들러 */
+  const handleOpenModalCharc = (userId: string, charcId: number) => {
+    if (CharcDetail.user_id === userId && CharcDetail.charc_no === charcId) {
+      setCharList(CharcDetail)
+      setIsCharcModalOpen(true)
+      return
+    }
+
+    alert("일치하는 캐릭터 데이터가 없습니다.")
+  }
+
+  const handleOpenModalFairy = (userId: string, storyNo: number) => {
+    if (FairyDetail.user_id !== userId || FairyDetail.story_no !== storyNo) {
+      alert("일치하는 동화 데이터가 없습니다.")
+      return
+    }
+
+    setFairyList(FairyDetail)
+    setIsFairyModalOpen(true)
+  }
+  // 캐릭터 상세 모달 사이드바 -> 동화 리스트에서 동화 선택 -> 동화 상세 모달
+  const handleCharModalStoryClick = (storyNo: number) => {
+    if (FairyDetail.story_no !== storyNo) {
+      alert("동화 상세 데이터를 찾을 수 없습니다.")
+      return
+    }
+
+    setCharList({})
+    setIsCharcModalOpen(false)
+
+    setFairyList(FairyDetail)
+    setIsFairyModalOpen(true)
+  }
+  // 동화 상세 모달 사이드바 -> 캐릭터 리스트에서 캐릭터 선택 -> 캐릭터 상세 모달
+  const handleFairyModalUserClick = (charcNo: number) => {
+    if (CharcDetail.charc_no !== charcNo) {
+      alert("해당 캐릭터 상세를 찾을 수 없습니다.")
+      return
+    }
+
+    setFairyList({}) // 동화 모달 닫고 캐릭터 모달 열기
+    setIsFairyModalOpen(false)
+
+    setCharList(CharcDetail)
+    setIsCharcModalOpen(true)
+  }
+
+  const handleCharcModalClose = () => {
+    setIsCharcModalOpen(false)
+    setCharList({})
+  }
+
+  const handleFairyModalClose = () => {
+    setIsFairyModalOpen(false)
+    setFairyList({})
+  }
+
   const navigate = useNavigate()
   const handleGoBack = () => {
     navigate(-1)
   }
-  /* UseState */
-  const [filterBan, setFilterBan] = useState<boolean>(false); // 'Ban' 버튼 클릭 시 전체 이미지가 필터링 되어 나타남(핸재 기준 isBanned로 구분됨)
 
-  const [isCharcModalOpen, setIsCharcModalOpen] = useState(false); // 모달창 열고 닫음 확인을 위함
-  const [isFairyModalOpen, setIsFairyModalOpen] = useState(false); // 모달창 열고 닫음 확인을 위함
-  const [charList, setCharList] = useState<any>({});
-  const [fairyId, setFairyId] = useState<string | number | null>(null);
-  const [fairyList, setFairyList] = useState<any>({});
-  const [userId, setUserId] = useState<string | number | null>(null);
-
-  /* 검색조건 설정 */
-  // 상위 상태
-  const [activeType, setActiveType] = useState("캐릭터"); // 실제로 보여줄 리스트 타입
-  const [searchQuery, setSearchQuery] = useState("");
-  const [searchType, setSearchType] = useState("캐릭터");
-  const [startDate, setStartDate] = useState<Date | null>(subDays(new Date(), 1));
-  const [endDate, setEndDate] = useState<Date | null>(new Date());
-
-  // 컴포넌트 마운트 시 한 번 검색 실행
   useEffect(() => {
-    handleSearch();
-  }, []); // 빈 배열이므로 한 번만 실행됨
+    handleSearch()  // 페이지 초기 진입 시 검색 실행
 
-  // 날짜를 한 번에 설정하는 함수
-  const setDates = (start: Date | null, end: Date | null) => {
-    setStartDate(start);
-    setEndDate(end);
-  };
-
-  // 검색 버튼 눌렀을 때
-  const handleSearch = () => {
-    setActiveType(searchType);
-    console.log("검색 실행!");
-    console.log("Query:", searchQuery);
-    console.log("Type:", searchType);
-    console.log("Start:", startDate);
-    console.log("End:", endDate);
-    // → 여기서 실제 API 호출 or 필터링 처리
-  };
-
-  // 초기화 버튼 눌렀을 때
-  const handleReset = () => {
-    setSearchQuery("");
-    setSearchType("캐릭터");
-    setStartDate(subDays(new Date(), 1));
-    setEndDate(new Date());
-  };
-
-  // 모달 열기/닫기 핸들러
-  /* 1. 캐릭터 팝업 닫기 */
-  const handleCharcModalClose = () => {
-    setIsCharcModalOpen(false); // 모달창 닫기
-    setCharList({});
-  };
-  /* 1-1. 캐릭터 리스트(작업중) */
-  const [selectedMode, setSelectedMode] = useState(false);
-  /* 1-2. 캐릭터 팝업 (일부 완료) */
-  const handleOpenModalCharc = (userId: any, charcId: any) => {
-    /* 예시 데이터 (userID,charId값 일치 시 해당 데이터를 찾아 불러옴) */
-    if (userId === 'user1' && charcId === '9007199254740991') {
-      setIsCharcModalOpen(true);
-      setCharList(CharcDetail);
-    } else {
-      alert('일치하는 데이터가 없습니다.');
+    if (!selectedMode) { // 선택모드가 아닌 경우 → 토스트 제거 후 종료
+      toast.dismiss()
+      return
     }
-    /* 알맞는 팝업 데이터 불러오기 */
-  }
 
-  /* 2. 동화 팝업 닫기 */
-  const handleFairyModalClose = () => {
-    setIsFairyModalOpen(false); // 모달창 닫기
-    setCharList({});
-  };
-  /* 2-2. 동화 팝업 (일부 완료) */
-  const handleOpenModalFairy = (userId: any, storyNo: any) => {
-    console.log('sdfsfd', userId, storyNo);
-    /* 예시 데이터 (userID,charId값 일치 시 해당 데이터를 찾아 불러옴) */
-    if (userId === 'user1' && storyNo === 10001) {
-      setIsFairyModalOpen(true);
-      setFairyList(FairyImageList);
-    } else {
-      alert('일치하는 데이터가 없습니다.');
+    if (selectedCount === 0) {  // 선택모드 + 선택 개수 0 → 토스트 제거 후 종료
+      toast.dismiss()
+      return
     }
-    /* 알맞는 팝업 데이터 불러오기 */
-  }
 
+    showDeleteToast(selectedCount, () => {
+      console.log(`아마자 ${selectedCount}개 삭제`)
+      setSelectedMode(false);
+    })
+
+  }, [selectedMode, selectedCount])
 
   return (
     <div className="pb-30">
+      <CustomToastContainer />
+
       {/* 상단 제목 */}
       <div className="flex items-center justify-between gap-4 mb-4">
         <div className="flex items-center gap-4 ">
@@ -142,7 +193,7 @@ export default function ImageDetail() {
             <img
               src={arrow_l}
               alt="arrow_l"
-              className="h-5 mr-2 cursor-pointer fill-[#000000]"
+              className="h-5 mr-2 cursor-pointer"
               onClick={handleGoBack}
             />
             캐릭터/동화 제작
@@ -153,17 +204,18 @@ export default function ImageDetail() {
             size="sm"
             pointColor="red"
             color={filterBan ? "red" : undefined}
-          // onClick={toggleBanFilter}
           >
             Ban
           </Btn>
         </div>
       </div>
+
+      {/* 검색 영역 */}
       <SearchFilter
         searchQuery={searchQuery}
         setSearchQuery={setSearchQuery}
         searchType={searchType}
-        setSearchType={setSearchType}
+        setSearchType={(type) => setSearchType(type as "캐릭터" | "동화")}
         startDate={startDate}
         endDate={endDate}
         setDates={setDates}
@@ -176,54 +228,43 @@ export default function ImageDetail() {
           background={selectedMode ? "color" : "regular"}
           size="sm"
           color={selectedMode ? "green" : undefined}
-          onClick={selectedMode ? () => setSelectedMode(false) : () => setSelectedMode(true)}
+          onClick={() => setSelectedMode(prev => !prev)}
         >
           {selectedMode ? '취소' : '선택'}
         </Btn>
       </div>
-      {/* 이미지 리스트 */}
+
+      {/* 이미지 리스트 - 캐릭터/동화*/}
       {activeType === '캐릭터' ? (
         <ImageList
-          imageList={CharcImageList} // ImageItem[] 타입으로 전달
+          imageList={filteredCharcList}
           selectedMode={selectedMode}
-          onImageClick={(userId: any, charcId: any) => handleOpenModalCharc(userId, charcId)}
+          onImageClick={handleOpenModalCharc}
+          onSelectCountChange={setSelectedCount}
         />
       ) : (
         <StoriesList
-          storyList={FairyImageList}
+          storyList={filteredFairyList}
           selectedMode={selectedMode}
-          onStoryClick={(userId: any, storyNo: any) => handleOpenModalFairy(userId, storyNo)}
+          onStoryClick={handleOpenModalFairy}
+          onSelectCountChange={setSelectedCount}
         />
       )}
 
-      {/* 모달 모음 */}
-      {/* 1. 캐릭터 */}
+      {/* 상세 모달 - 캐릭터/동화 */}
       <CustomModalCharc
         isOpen={isCharcModalOpen}
         userData={charList}
         onClose={handleCharcModalClose}
-        sidebarWidth='300px'
-        onStoryClick={(storyNo: number) => {
-          console.log('상위 컴포넌트에서 클릭한 동화 번호:', storyNo);
-          /* 캐릭터 모달창 닫기 */
-          setFairyId(storyNo); // 열었던 id 저장
-          handleCharcModalClose();
-          /* 동화 모달창 열기 */
-        }}
+        sidebarWidth="300px"
+        onStoryClick={handleCharModalStoryClick}
       />
-      {/* 2. 동화 */}
       <CustomModalFairy
         isOpen={isFairyModalOpen}
         userData={fairyList}
         onClose={handleFairyModalClose}
-        sidebarWidth='300px'
-        onUserClick={(charcNo: number) => {
-          console.log(charcNo);
-          console.log('상위 컴포넌트에서 클릭한 동화 번호')
-          setUserId(charcNo);
-          handleFairyModalClose();
-          /* 동화 모달창 열기 */
-        }}
+        sidebarWidth="300px"
+        onUserClick={handleFairyModalUserClick}
       />
     </div>
   )

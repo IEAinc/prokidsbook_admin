@@ -9,28 +9,36 @@
         "story_dt": "2024-06-01T14:30:45Z",
         "story_img_list": [
           {
-            "story_img_url": "/images/ch_story.png"
+            "story_img_url": "/images/ch_story.png",
+            "ban": true
           },
           {
-            "story_img_url": "/images/ch_story.png"
+            "story_img_url": "/images/ch_story.png",
+            "ban": false
           },
           {
-            "story_img_url": "/images/ch_story.png"
+            "story_img_url": "/images/ch_story.png",
+            "ban": false
           },
           {
-            "story_img_url": "/images/ch_story.png"
+            "story_img_url": "/images/ch_story.png",
+            "ban": false
           },
           {
-            "story_img_url": "/images/ch_story.png"
+            "story_img_url": "/images/ch_story.png",
+            "ban": false
           },
           {
-            "story_img_url": "/images/ch_story.png"
+            "story_img_url": "/images/ch_story.png",
+            "ban": false
           },
           {
-            "story_img_url": "/images/ch_story.png"
+            "story_img_url": "/images/ch_story.png",
+            "ban": false
           },
           {
-            "story_img_url": "/images/ch_story.png"
+            "story_img_url": "/images/ch_story.png",
+            "ban": false
           }
         ]
       },
@@ -41,28 +49,36 @@
         "story_dt": "2024-06-01T14:30:45Z",
         "story_img_list": [
           {
-            "story_img_url": "/images/ch_story.png"
+            "story_img_url": "/images/ch_story.png",
+            "ban": false
           },
           {
-            "story_img_url": "/images/ch_story.png"
+            "story_img_url": "/images/ch_story.png",
+            "ban": false
           },
           {
-            "story_img_url": "/images/ch_story.png"
+            "story_img_url": "/images/ch_story.png",
+            "ban": false
           },
           {
-            "story_img_url": "/images/ch_story.png"
+            "story_img_url": "/images/ch_story.png",
+            "ban": false
           },
           {
-            "story_img_url": "/images/ch_story.png"
+            "story_img_url": "/images/ch_story.png",
+            "ban": false
           },
           {
-            "story_img_url": "/images/ch_story.png"
+            "story_img_url": "/images/ch_story.png",
+            "ban": false
           },
           {
-            "story_img_url": "/images/ch_story.png"
+            "story_img_url": "/images/ch_story.png",
+            "ban": false
           },
           {
-            "story_img_url": "/images/ch_story.png"
+            "story_img_url": "/images/ch_story.png",
+            "ban": false
           }
         ]
       }
@@ -77,28 +93,36 @@
         "story_dt": "2024-06-01T14:30:45Z",
         "story_img_list": [
           {
-            "story_img_url": "/images/ch_story.png"
+            "story_img_url": "/images/ch_story.png",
+            "ban": false
           },
           {
-            "story_img_url": "/images/ch_story.png"
+            "story_img_url": "/images/ch_story.png",
+            "ban": false
           },
           {
-            "story_img_url": "/images/ch_story.png"
+            "story_img_url": "/images/ch_story.png",
+            "ban": false
           },
           {
-            "story_img_url": "/images/ch_story.png"
+            "story_img_url": "/images/ch_story.png",
+            "ban": false
           },
           {
-            "story_img_url": "/images/ch_story.png"
+            "story_img_url": "/images/ch_story.png",
+            "ban": false
           },
           {
-            "story_img_url": "/images/ch_story.png"
+            "story_img_url": "/images/ch_story.png",
+            "ban": false
           },
           {
-            "story_img_url": "/images/ch_story.png"
+            "story_img_url": "/images/ch_story.png",
+            "ban": false
           },
           {
-            "story_img_url": "/images/ch_story.png"
+            "story_img_url": "/images/ch_story.png",
+            "ban": false
           }
         ]
       },
@@ -108,28 +132,36 @@
         "story_dt": "2024-06-01T14:30:45Z",
         "story_img_list": [
           {
-            "story_img_url": "/images/ch_story.png"
+            "story_img_url": "/images/ch_story.png",
+            "ban": false
           },
           {
-            "story_img_url": "/images/ch_story.png"
+            "story_img_url": "/images/ch_story.png",
+            "ban": false
           },
           {
-            "story_img_url": "/images/ch_story.png"
+            "story_img_url": "/images/ch_story.png",
+            "ban": false
           },
           {
-            "story_img_url": "/images/ch_story.png"
+            "story_img_url": "/images/ch_story.png",
+            "ban": false
           },
           {
-            "story_img_url": "/images/ch_story.png"
+            "story_img_url": "/images/ch_story.png",
+            "ban": false
           },
           {
-            "story_img_url": "/images/ch_story.png"
+            "story_img_url": "/images/ch_story.png",
+            "ban": false
           },
           {
-            "story_img_url": "/images/ch_story.png"
+            "story_img_url": "/images/ch_story.png",
+            "ban": false
           },
           {
-            "story_img_url": "/images/ch_story.png"
+            "story_img_url": "/images/ch_story.png",
+            "ban": false
           }
         ]
       }

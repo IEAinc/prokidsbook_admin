@@ -26,7 +26,7 @@
         "user_id": "user1",
         "img_url": "/images/ch_img.svg",
         "time_stamp": "2024-06-01T14:30:45Z",
-        "ban": false
+        "ban": true
       },
       {
         "charcNo": 9007199254740994,
