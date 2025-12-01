@@ -1,11 +1,11 @@
 /**
  * @file ImageSearchFilter.tsx
- * @description 이미지 검색 필터
+ * @description 회원 관리 > 생성 이미지 관리 > 이미지 검색 필터
  */
 import { subDays } from 'date-fns'
 import { MdOutlineAutorenew } from "react-icons/md"
 import { IoSearch } from "react-icons/io5"
-/* 컴포넌트 */
+
 import CustomDatePicker from "../../common/datePickers/DatePicker.tsx"
 import Btn from "../../common/buttons/Btn.tsx"
 import Input from "../../common/forms/Input.tsx"

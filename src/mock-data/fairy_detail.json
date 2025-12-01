@@ -1,7 +1,7 @@
 {
   "user_id": "user1",
   "user_name": "홍길동",
-  "user_img": "/images/",
+  "user_img": "/images/ch_sm_img.png",
   "story_no": 10001,
   "story_title": "하늘을 달리는 루아",
   "story_dt": "2024-05-01T17:30:45Z",
@@ -9,7 +9,7 @@
     {
       "chapter_no": 1,
       "story_prompt": "five year old Korean cute girl character, Upper body, Oil painting style, distinct brush strokes, impasto, detailed lighting, intricate colors, colors vibrant, realistic proportions, lifelike figures, mood magical, Design a classic Snow White dress with a vibrant blue bodice, puffed sleeves with red accents, a yellow flowing skirt, and a red bow headband, white background.",
-      "story_img_url": "",
+      "story_img_url": "/images/ch_story.png",
       "story_text": "1번째 장: 리아와 친구들은 도서관에서 빛나는 책을 발견했어요. 호기심에 책을 펼친 순간 황금빛 글자들이 반짝이면서 속삭였어요. “세계를 푸르게 되돌리고 싶은 자여.....” 아이들은 책을 둘러싸고 읽기 시작했어요. 각 페이지마다 동물들과 자연의 이야기가 그려져 있었어요. “옛날에는 지구가 푸른색이라는 말이 거짓이 아니었어!” 책의 마지막 장에는 ‘마법의 씨앗을 찾으면 지구를 되돌릴 수 있다’는 이야기가 적혀있었어요."
     },
     {
@@ -56,10 +56,6 @@
     }
   ],
   "user_img_list": [
-    {
-      "charcNo": 9007199254740991,
-      "charc_img_url": "/images/ch_sm_img.png"
-    },
     {
       "charcNo": 9007199254740992,
       "charc_img_url": "/images/ch_md_img.png"

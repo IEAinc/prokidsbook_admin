@@ -1,3 +1,7 @@
+/**
+ * @file SearchFilter.tsx
+ * @description 회원 관리 > 검색 필터 
+ */
 import React, { useState } from 'react'
 /* 아이콘 */
 import { MdOutlineAutorenew } from "react-icons/md"

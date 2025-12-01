@@ -21,27 +21,28 @@ import CustomModalFairy from "../../components/common/modals/CustomModalFairy.ts
 import arrow_l from "../../assets/images/arrow_l.svg"
 
 /* 임시 데이터 - api 연결 시 삭제 */
-import CharcImageList from "../../mock-data/charc-list.json" 
+import CharcImageList from "../../mock-data/charc-list.json"
 import CharcDetail from "../../mock-data/charc_detail.json"
 import FairyImageList from "../../mock-data/fairy_list.json"
 import FairyDetail from "../../mock-data/fairy_detail.json"
 
 export default function ImageDetail() {
-  const [charList, setCharList] = useState<any>({}) //캐릭터 리스트
-  const [fairyList, setFairyList] = useState<any>({}) //동화 리스트
-  const [isCharcModalOpen, setIsCharcModalOpen] = useState(false) //캐릭터 모달
-  const [isFairyModalOpen, setIsFairyModalOpen] = useState(false) //동화 모달
-  const [fairyId, setFairyId] = useState<string | number | null>(null) //동화 ID
-  const [filterBan, setFilterBan] = useState<boolean>(false) //벤 이미지 필터
+  const [charList, setCharList] = useState<any>({}) // 캐릭터 리스트
+  const [fairyList, setFairyList] = useState<any>({}) // 동화 리스트
+  const [isCharcModalOpen, setIsCharcModalOpen] = useState(false) // 캐릭터 모달
+  const [isFairyModalOpen, setIsFairyModalOpen] = useState(false) // 동화 모달
+  // const [fairyId, setFairyId] = useState<string | number | null>(null) // 동화 ID
+  const [filterBan, setFilterBan] = useState<boolean>(false) // 벤 이미지 필터
   const [selectedCount, setSelectedCount] = useState(0)
+  const [isBanned, setIsBanned] = useState(false) // 벤 상태 관리
   const { showDeleteToast } = useCustomToast()
   /* 검색 */
-  const [activeType, setActiveType] = useState<"캐릭터" | "동화">("캐릭터")  //실제 렌더링
-  const [searchType, setSearchType] = useState<"캐릭터" | "동화">("캐릭터") //selectbox 값
+  const [activeType, setActiveType] = useState<"캐릭터" | "동화">("캐릭터")  // 실제 렌더링 하고 있는 값 
+  const [searchType, setSearchType] = useState<"캐릭터" | "동화">("캐릭터") // selectbox 값
   const [selectedMode, setSelectedMode] = useState(false) //선택 모드
-  const [startDate, setStartDate] = useState<Date | null>(subDays(new Date(), 1)) //시작 날짜
-  const [endDate, setEndDate] = useState<Date | null>(new Date()) //종료 날짜
-  const [searchQuery, setSearchQuery] = useState("") //검색할 프롬프트
+  const [startDate, setStartDate] = useState<Date | null>(subDays(new Date(), 1)) // 시작 날짜
+  const [endDate, setEndDate] = useState<Date | null>(new Date()) // 종료 날짜
+  const [searchQuery, setSearchQuery] = useState("") // 검색할 프롬프트
 
   const { id } = useParams() // 상세페이지 쿼리 파라미터에서 : 유저 ID 추출
   const userId = id
@@ -104,21 +105,23 @@ export default function ImageDetail() {
 
   /* 모달 핸들러 */
   // 캐릭터 상세 모달 
-  const handleOpenModalCharc = (userId: string, charcId: number) => {
+  const handleOpenModalCharc = (userId: string, charcId: number, isBanned?: boolean) => {
     if (CharcDetail.user_id === userId && CharcDetail.charc_no === charcId) {
       setCharList(CharcDetail)
+      setIsBanned(!!isBanned)
       setIsCharcModalOpen(true)
       return
     }
     alert("일치하는 캐릭터 데이터가 없습니다.")
   }
   // 캐릭터 상세 모달 사이드바 -> 동화 리스트에서 동화 선택 -> 동화 상세 모달
-  const handleOpenModalFairy = (userId: string, storyNo: number) => {
+  const handleOpenModalFairy = (userId: string, storyNo: number, isBanned?: boolean) => {
     if (FairyDetail.user_id !== userId || FairyDetail.story_no !== storyNo) {
       alert("일치하는 동화 데이터가 없습니다.")
       return
     }
     setFairyList(FairyDetail)
+    setIsBanned(!!isBanned)
     setIsFairyModalOpen(true)
   }
 
@@ -131,6 +134,7 @@ export default function ImageDetail() {
     setCharList({})
     setIsCharcModalOpen(false)
     setFairyList(FairyDetail)
+    setIsBanned(false) // 모달 전환 시 초기화
     setIsFairyModalOpen(true)
   }
   // 동화 상세 모달 사이드바 -> 캐릭터 리스트에서 캐릭터 선택 -> 캐릭터 상세 모달
@@ -142,17 +146,20 @@ export default function ImageDetail() {
     setFairyList({})
     setIsFairyModalOpen(false)
     setCharList(CharcDetail)
+    setIsBanned(false) // 모달 전환 시 초기화
     setIsCharcModalOpen(true)
   }
 
   const handleCharcModalClose = () => {
     setIsCharcModalOpen(false)
     setCharList({})
+    setIsBanned(false)
   }
 
   const handleFairyModalClose = () => {
     setIsFairyModalOpen(false)
     setFairyList({})
+    setIsBanned(false)
   }
 
   const navigate = useNavigate()
@@ -171,7 +178,6 @@ export default function ImageDetail() {
       return
     }
     showDeleteToast(selectedCount, () => {
-      //console.log(`이미지 ${selectedCount}개 삭제`)
       setSelectedMode(false);
     })
   }, [selectedMode, selectedCount])
@@ -203,7 +209,7 @@ export default function ImageDetail() {
           </Btn>
         </div>
       </div>
-      
+
       {/* 검색 영역 */}
       <SearchFilter
         searchQuery={searchQuery}
@@ -252,6 +258,7 @@ export default function ImageDetail() {
         onClose={handleCharcModalClose}
         sidebarWidth="300px"
         onStoryClick={handleCharModalStoryClick}
+        isBanned={isBanned}
       />
       <CustomModalFairy
         isOpen={isFairyModalOpen}
@@ -259,6 +266,7 @@ export default function ImageDetail() {
         onClose={handleFairyModalClose}
         sidebarWidth="300px"
         onUserClick={handleFairyModalUserClick}
+        isBanned={isBanned}
       />
     </div>
   )

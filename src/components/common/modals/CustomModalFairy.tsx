@@ -3,8 +3,8 @@
  * @description 회원 관리 > 생성 이미지 관리 > 동화 상세 모달
  */
 import { useEffect } from 'react'
-import { format, parseISO, addHours } from 'date-fns'
-import { HiChevronRight, HiX } from "react-icons/hi"
+import { format, parseISO } from 'date-fns'
+import { HiX } from "react-icons/hi"
 
 import Btn from '../buttons/Btn.tsx'
 import FairyTale from '../../pages/users/swiperContents/FairyTale.tsx'
@@ -141,7 +141,20 @@ const CustomModalFairy = ({
             <HiX className="w-8 h-8 text-black" />
           </Btn>
         </div>
-        <div className="w-[70vh] h-[70vh] bg-white rounded-xl overflow-hidden">
+        <div className="w-[90vh] h-[50vh] bg-white rounded-xl overflow-hidden">
+          {isBanned ? (
+            <div className="w-full h-full bg-gray-200 flex items-center justify-center text-lg font-bold text-gray-500">
+              이미지 생성 실패
+            </div>
+          ) : (
+            <FairyTale
+              title={userData.story_title}
+              pages={userData.stories.map(story => ({
+                image: story.story_img_url,
+                content: story.story_text
+              }))}
+            />
+          )}
         </div>
       </div>
     </div>

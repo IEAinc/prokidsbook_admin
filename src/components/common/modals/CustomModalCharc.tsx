@@ -3,7 +3,7 @@
  * @description 회원 관리 > 생성 이미지 관리 > 캐릭터 상세 모달
  */
 import { useEffect } from 'react'
-import { format, parseISO, addHours } from 'date-fns'
+import { format, parseISO } from 'date-fns'
 import { HiChevronRight, HiX } from "react-icons/hi"
 
 import Btn from '../buttons/Btn.tsx'
@@ -76,7 +76,7 @@ const CustomModalCharc = ({
 
       {/* 사이드바 */}
       <div
-        className="fixed bg-white right-0 top-0 h-screen  shadow-xl p-4 overflow-auto z-[51]"
+        className="fixed bg-white right-0 top-0 h-screen shadow-xl p-4 overflow-auto z-[51]"
         style={{ width: sidebarWidth || '300px' }}
       >
         {/* 회원정보 */}
@@ -142,7 +142,7 @@ const CustomModalCharc = ({
       </div>
 
       {/* 캐릭터 화면 */}
-      <div className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 ">
+      <div className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2">
         <div className="flex items-center justify-end">
           <Btn
             type="button"
@@ -152,12 +152,18 @@ const CustomModalCharc = ({
             <HiX className="w-8 h-8 text-black" />
           </Btn>
         </div>
-        <div className="w-[70vh] h-[70vh] bg-white rounded-xl overflow-hidden">
-          <img
-            src={userData.charc_img_url}
-            alt="사용자 이미지"
-            className="h-full object-contain"
-          />
+          <div className="w-[70vh] h-[70vh] overflow-hidden rounded-lg">
+          {isBanned ? (
+            <div className="w-full h-full bg-gray-200 flex items-center justify-center text-lg font-bold text-gray-500">
+              이미지 생성 실패
+            </div>
+          ) : (
+            <img
+              src={userData.charc_img_url}
+              alt="사용자 이미지"
+              className="h-full w-full object-cover"
+            />
+          )}
         </div>
       </div>
     </div>

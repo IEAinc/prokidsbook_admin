@@ -3,6 +3,7 @@
  * @description 회원 관리 > 생성 이미지 관리 > 캐릭터 이미지 리스트
  */
 import { useState, useEffect } from 'react'
+import { isToday, isYesterday } from 'date-fns'
 import Checkbox from '../../common/forms/Checkbox'
 
 interface ImageItem {
@@ -22,7 +23,7 @@ interface DateGroupedImageList {
 interface ImageListProps {
   imageList: DateGroupedImageList[]
   selectedMode: boolean
-  onImageClick?: (userId: any, charcId: any) => void
+  onImageClick?: (userId: any, charcId: any, isBanned?: boolean) => void
   onSelectCountChange?: (count: number) => void
 }
 
@@ -34,7 +35,15 @@ const ImageList = ({
 }: ImageListProps) => {
   const [checkedItems, setCheckedItems] = useState<{ [key: string]: boolean }>({})
 
-  /** 개별 체크 */
+  /* 날짜 표시 포맷팅 (오늘/어제/날짜) */
+  const getDisplayDate = (dateStr: string) => {
+    const date = new Date(dateStr)
+    if (isToday(date)) return '오늘'
+    if (isYesterday(date)) return '어제'
+    return dateStr
+  }
+
+  /* 개별 체크 */
   const handleCheckboxChange = (charcNo: number, checked: boolean) => {
     setCheckedItems((prev) => ({
       ...prev,
@@ -42,21 +51,21 @@ const ImageList = ({
     }))
   }
 
-  /** 날짜별 전체 선택 */
+  /* 날짜별 전체 선택 */
   const handleSelectAllChange = (checked: boolean, items: ImageItem[]) => {
     const updated = { ...checkedItems }
     items.forEach((item) => (updated[item.charcNo] = checked))
     setCheckedItems(updated)
   }
 
-  /** 카드 클릭 시 동작 분기 */
+  /* 카드 클릭 시 동작 분기 */
   const handleCardClick = (item: ImageItem) => {
     if (selectedMode) {
       const current = checkedItems[item.charcNo] || false // 선택 모드 → 체크박스만 토글
       handleCheckboxChange(item.charcNo, !current)
       return
     }
-    onImageClick?.(item.user_id, item.charcNo) // 선택 모드가 아닐 때만 모달 콜백 호출
+    onImageClick?.(item.user_id, item.charcNo, item.ban) // 선택 모드가 아닐 때만 모달 콜백 호출
   }
 
   useEffect(() => {
@@ -73,11 +82,10 @@ const ImageList = ({
 
         return (
           <div key={date} className="mb-4">
-            {/* ===== 날짜 헤더 ===== */}
+            {/* === 헤더 : 날짜, 생성이미지 개수 === */}
             <div className="flex justify-between items-center py-2">
-              {/* 날짜 영역 */}
               <div className="flex items-center gap-4">
-                <p className="font-semibold">{date}</p>
+                <p className="font-semibold">{getDisplayDate(date)}</p>
                 <p className="text-gray-500">
                   <span>{items.length}</span>개
                 </p>
@@ -91,7 +99,7 @@ const ImageList = ({
                 />
               )}
             </div>
-            {/* ===== 이미지 리스트 ===== */}
+            {/* ==== 이미지 리스트 ==== */}
             <div className="p-4">
               <ul className="grid grid-cols-8 gap-2">
                 {items.map((item) => {
@@ -122,12 +130,12 @@ const ImageList = ({
                         <img
                           src={item.img_url}
                           alt={item.alt || 'image'}
-                          className={`w-full h-full object-contain transition-transform duration-200 ${selectedMode && isChecked ? 'scale-90' : 'scale-100'
+                          className={`w-full h-full object-cover ${selectedMode && isChecked ? 'scale-90' : 'scale-100'
                             }`}
                         />
                       ) : (
                         <div
-                          className={`w-full h-full bg-rose-50 flex justify-center items-center transition-transform ${selectedMode && isChecked ? 'scale-90' : 'scale-100'
+                          className={`w-full h-full bg-rose-50 flex justify-center items-center ${selectedMode && isChecked ? 'scale-90' : 'scale-100'
                             }`}
                         >
                           생성 실패 이미지
