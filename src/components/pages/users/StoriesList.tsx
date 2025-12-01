@@ -6,6 +6,7 @@ import { useState, useEffect } from 'react'
 import Checkbox from '../../common/forms/Checkbox'
 
 interface StoryImage {
+  chapter_no: number
   story_img_url: string
   ban?: boolean
   alt?: string
@@ -90,26 +91,25 @@ const StoriesList = ({ storyList, selectedMode, onStoryClick, onSelectCountChang
             )}
           </div>
 
-          {/* 스토리(동화) 리스트 — 중복 렌더링 방지: story 하나당 1개 박스만 */}
+          {/* 스토리(동화) 리스트 */}
           <ul className="grid grid-cols-8 gap-2 p-4">
             {items.map((item) => {
-              const thumbnail = item.story_img_list[0] // 대표 이미지 1개만 표시
               const isChecked = checkedItems[item.story_no] || false
 
-              return (
+              return item.story_img_list.map((img) => (
                 <li
-                  key={item.story_no}
+                  key={img.chapter_no}
                   className="relative border border-gray-200 rounded aspect-square overflow-hidden cursor-pointer"
                   onClick={() => handleCardClick(item)}
                 >
-                  {/* 체크박스 */}
-                  {selectedMode && (
+                  {/* 체크박스 - chapter_no가 1인 경우에만 표시 */}
+                  {selectedMode && img.chapter_no === 1 && (
                     <div
                       className="absolute top-2 left-2 z-10 cursor-pointer"
                       onClick={(e) => e.stopPropagation()}
                     >
                       <Checkbox
-                        id={`${item.story_no}-checkbox`}
+                        id={`${item.story_no}-${img.chapter_no}-checkbox`}
                         checked={isChecked}
                         onChange={(checked) => handleCheckboxChange(item.story_no, checked)}
                       />
@@ -117,25 +117,23 @@ const StoriesList = ({ storyList, selectedMode, onStoryClick, onSelectCountChang
                   )}
 
                   {/* === ban 이미지 처리 === */}
-                  {thumbnail?.ban ? (
+                  {img.ban ? (
                     <div
-                      className={`w-full h-full bg-rose-50 flex justify-center items-center transition-transform ${
-                        selectedMode && isChecked ? 'scale-90' : 'scale-100'
-                      }`}
+                      className={`w-full h-full bg-rose-50 flex justify-center items-center transition-transform ${selectedMode && isChecked ? 'scale-90' : 'scale-100'
+                        }`}
                     >
                       생성 실패 이미지
                     </div>
                   ) : (
                     <img
-                      src={thumbnail.story_img_url}
-                      alt={thumbnail.alt || 'thumbnail'}
-                      className={`w-full h-full object-contain transition-transform duration-200 ${
-                        selectedMode && isChecked ? 'scale-90' : 'scale-100'
-                      }`}
+                      src={img.story_img_url}
+                      alt={img.alt || 'thumbnail'}
+                      className={`w-full h-full object-contain transition-transform duration-200 ${selectedMode && isChecked ? 'scale-90' : 'scale-100'
+                        }`}
                     />
                   )}
                 </li>
-              )
+              ))
             })}
           </ul>
         </div>

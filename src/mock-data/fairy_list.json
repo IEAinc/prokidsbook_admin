@@ -1,7 +1,7 @@
 [
   {
     "date": "2024-06-05",
-    "items" : [
+    "items": [
       {
         "user_id": "user1",
         "user_name": "홍길동",
@@ -9,34 +9,42 @@
         "story_dt": "2024-06-01T14:30:45Z",
         "story_img_list": [
           {
+            "chapter_no": 1,
             "story_img_url": "/images/ch_story.png",
             "ban": true
           },
           {
+            "chapter_no": 2,
             "story_img_url": "/images/ch_story.png",
             "ban": false
           },
           {
+            "chapter_no": 3,
             "story_img_url": "/images/ch_story.png",
             "ban": false
           },
           {
+            "chapter_no": 4,
             "story_img_url": "/images/ch_story.png",
             "ban": false
           },
           {
+            "chapter_no": 5,
             "story_img_url": "/images/ch_story.png",
             "ban": false
           },
           {
+            "chapter_no": 6,
             "story_img_url": "/images/ch_story.png",
             "ban": false
           },
           {
+            "chapter_no": 7,
             "story_img_url": "/images/ch_story.png",
             "ban": false
           },
           {
+            "chapter_no": 8,
             "story_img_url": "/images/ch_story.png",
             "ban": false
           }
@@ -49,34 +57,42 @@
         "story_dt": "2024-06-01T14:30:45Z",
         "story_img_list": [
           {
+            "chapter_no": 1,
             "story_img_url": "/images/ch_story.png",
             "ban": false
           },
           {
+            "chapter_no": 2,
             "story_img_url": "/images/ch_story.png",
             "ban": false
           },
           {
+            "chapter_no": 3,
             "story_img_url": "/images/ch_story.png",
             "ban": false
           },
           {
+            "chapter_no": 4,
             "story_img_url": "/images/ch_story.png",
             "ban": false
           },
           {
+            "chapter_no": 5,
             "story_img_url": "/images/ch_story.png",
             "ban": false
           },
           {
+            "chapter_no": 6,
             "story_img_url": "/images/ch_story.png",
             "ban": false
           },
           {
+            "chapter_no": 7,
             "story_img_url": "/images/ch_story.png",
             "ban": false
           },
           {
+            "chapter_no": 8,
             "story_img_url": "/images/ch_story.png",
             "ban": false
           }
@@ -86,41 +102,49 @@
   },
   {
     "date": "2024-06-06",
-    "items" : [
+    "items": [
       {
         "user_id": "user1",
         "story_no": 10003,
         "story_dt": "2024-06-01T14:30:45Z",
         "story_img_list": [
           {
+            "chapter_no": 1,
             "story_img_url": "/images/ch_story.png",
             "ban": false
           },
           {
+            "chapter_no": 2,
             "story_img_url": "/images/ch_story.png",
             "ban": false
           },
           {
+            "chapter_no": 3,
             "story_img_url": "/images/ch_story.png",
             "ban": false
           },
           {
+            "chapter_no": 4,
             "story_img_url": "/images/ch_story.png",
             "ban": false
           },
           {
+            "chapter_no": 5,
             "story_img_url": "/images/ch_story.png",
             "ban": false
           },
           {
+            "chapter_no": 6,
             "story_img_url": "/images/ch_story.png",
             "ban": false
           },
           {
+            "chapter_no": 7,
             "story_img_url": "/images/ch_story.png",
             "ban": false
           },
           {
+            "chapter_no": 8,
             "story_img_url": "/images/ch_story.png",
             "ban": false
           }
@@ -132,34 +156,42 @@
         "story_dt": "2024-06-01T14:30:45Z",
         "story_img_list": [
           {
+            "chapter_no": 1,
             "story_img_url": "/images/ch_story.png",
             "ban": false
           },
           {
+            "chapter_no": 2,
             "story_img_url": "/images/ch_story.png",
             "ban": false
           },
           {
+            "chapter_no": 3,
             "story_img_url": "/images/ch_story.png",
             "ban": false
           },
           {
+            "chapter_no": 4,
             "story_img_url": "/images/ch_story.png",
             "ban": false
           },
           {
+            "chapter_no": 5,
             "story_img_url": "/images/ch_story.png",
             "ban": false
           },
           {
+            "chapter_no": 6,
             "story_img_url": "/images/ch_story.png",
             "ban": false
           },
           {
+            "chapter_no": 7,
             "story_img_url": "/images/ch_story.png",
             "ban": false
           },
           {
+            "chapter_no": 8,
             "story_img_url": "/images/ch_story.png",
             "ban": false
           }
