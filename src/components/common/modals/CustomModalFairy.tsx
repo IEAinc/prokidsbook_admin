@@ -125,7 +125,7 @@ const CustomModalFairy = ({
                 />
               ))
             ) : (
-              <p className="text-gray-500">  사용자 이미지를 찾을 수 없습니다.</p> // user_img_list가 없거나 비어 있을 경우 메시지 표시
+              <p className="text-gray-500">사용자 이미지를 찾을 수 없습니다.</p> // user_img_list가 없거나 비어 있을 경우 메시지 표시
             )}
           </div>
         </div>
