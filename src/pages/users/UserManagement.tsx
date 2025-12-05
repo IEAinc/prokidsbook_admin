@@ -8,40 +8,12 @@ import { HiOutlineChevronRight } from "react-icons/hi"
 
 import Grid from '../../components/common/grids/Grid.tsx'
 import SearchFilter from '../../components/pages/users/SearchFilter.tsx'
-
-import nebula_1 from '../../assets/images/level/nebula_1.svg'
-import star_2 from '../../assets/images/level/star_2.svg'
-import star_3 from '../../assets/images/level/star_3.svg'
-import star_4 from '../../assets/images/level/star_4.svg'
-import star_5 from '../../assets/images/level/star_5.svg'
-import star_6 from '../../assets/images/level/star_6.svg'
-import star_7 from '../../assets/images/level/star_7.svg'
-import star_8 from '../../assets/images/level/star_8.svg'
-import star_9 from '../../assets/images/level/star_9.svg'
-import star_10 from '../../assets/images/level/star_10.svg'
-import star_11 from '../../assets/images/level/star_11.svg'
 import Title from "../../components/common/customs/Title.tsx"
-
-const levelImages: { [key: string]: string } = {
-  "성운": nebula_1,
-  "작은 별(빨강)": star_2,
-  "작은 별(주황)": star_3,
-  "작은 별(노랑)": star_4,
-  "작은 별(초록)": star_5,
-  "작은 별(하늘)": star_6,
-  "작은 별(파랑)": star_7,
-  "작은 별(보라)": star_8,
-  "반짝반짝 작은 별": star_9,
-  "알록달록 무지개 별": star_10,
-  "초신성": star_11
-}
-
-const getLevelImage = (level: string) => levelImages[level] || nebula_1
+import StarLevel from "../../components/common/customs/StarLevel.tsx"
 
 const generateRandomData = (count: number) => {
   const names = ["김서준", "이지우", "박하윤", "최민서", "정유진", "강도현", "윤지호", "조하린", "임준호", "한예린"]
   const memberships = ["경고", "일시정지", "영구정지", "멤버십 "]
-  const levels = Object.keys(levelImages)
   const domains = ["@kakao.com", "@google.com"]
   const sampleData = []
 
@@ -60,7 +32,7 @@ const generateRandomData = (count: number) => {
     const randomWarnings = Math.floor(Math.random() * 4) //경고
     const randomVisits = Math.floor(Math.random() * 100) //방문
     const randomMake = `${Math.floor(Math.random() * 20)}/${Math.floor(Math.random() * 20)}` //캐릭터/동화 제작 횟수
-    const randomLevel = levels[Math.floor(Math.random() * levels.length)] //회원등급
+    const randomLevel = Math.floor(Math.random() * 11) + 1 //회원등급
     const randomJoinDate = getRandomDate() //가입일
     const randomRecentDate = getRandomDate() //최근 접속일 
 
@@ -75,7 +47,6 @@ const generateRandomData = (count: number) => {
       visit: randomVisits,
       make: randomMake,
       level: randomLevel,
-      levelImage: getLevelImage(randomLevel),
       join: randomJoinDate,
       recent: randomRecentDate,
     })
@@ -130,11 +101,9 @@ const UserManagement: React.FC = () => {
         </div>
     },
     {
-      key: "level", label: '레벨', width: 8, centerType: "items-center",
+      key: "level", label: '레벨', width: 20, centerType: "items-center",
       render: (row: any) => (
-        <div className="flex items-center">
-          <img src={row.levelImage} alt={row.level} className="h-5 w-6" />
-        </div>
+        <StarLevel level={row.level} />
       )
     },
     { key: 'join', label: '가입일', width: 25, centerType: "text-center" },
