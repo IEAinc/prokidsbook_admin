@@ -167,20 +167,24 @@ export default function ImageDetail() {
     navigate(-1)
   }
 
-  useEffect(() => {
-    handleSearch()  // 페이지 초기 진입 시 검색 실행
-    if (!selectedMode) { // 선택모드가 아닌 경우 → 토스트 제거 후 종료
-      toast.dismiss()
-      return
-    }
-    if (selectedCount === 0) {  // 선택모드 + 선택 개수 0 → 토스트 제거 후 종료
-      toast.dismiss()
-      return
+useEffect(() => {
+    handleSearch();// 1. 페이지 첫 진입 시 데이터 로딩 (한 번만 실행)
+}, []);
+
+useEffect(() => {
+    if (!selectedMode || selectedCount === 0) {// 2. 선택 상태 변경에 따른 토스트 메시지 관리
+        toast.dismiss();
+        return;
     }
     showDeleteToast(selectedCount, () => {
-      setSelectedMode(false);
-    })
-  }, [selectedMode, selectedCount])
+        setSelectedMode(false);
+    });
+}, [selectedMode, selectedCount]);
+
+useEffect(() => {// 3. 탭(캐릭터/동화) 변경에 따른 상태 초기화
+    setSelectedMode(false);
+    setSelectedCount(0);
+}, [activeType]);
 
   return (
     <div>

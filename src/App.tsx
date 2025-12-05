@@ -8,14 +8,11 @@ import DetailPage from './components/pages/dashBoard/DetailPage.tsx' //대시보
 //사용자 관리
 import UserManagement from './pages/users/UserManagement.tsx' //회원 관리
 import UserDetail from './pages/users/UserDetail.tsx' //회원 관리 상세
-import ImageDetail from './pages/users/ImageDetail.tsx' //캐릭터-동화 제작 : 해당 유저의 생성이미지
+import ImageDetail from './pages/users/ImageDetail.tsx' //캐릭터/동화 제작 (해당 유저의 생성이미지)
 import UserWithdrawn from './pages/users/UserWithdrawn.tsx' //탈퇴 회원
 //1:1 문의 내역
 import Inquiries from './pages/inquiries/Inquiries.tsx'
 import InquiriesDetail from './pages/inquiries/Detail.tsx' //문의 내역 상세
-//생성 이미지 관리
-import Characters from './pages/images/Characters.tsx' // 캐릭터 이미지
-import Illustrations from './pages/images/Illustrations.tsx' //동화 이미지
 //내용 프롬프트 관리
 import UserPrompts from './pages/prompts/User/UserPrompts.tsx' //사용자 입력
 import GPTPrompts from './pages/prompts/GPT/GPTPrompts.tsx' //GPT 입력
@@ -47,8 +44,6 @@ function App() {
         <Route path="/users/withdrawn" element={<UserWithdrawn />} />
         <Route path="/inquiries" element={<Inquiries />} />
         <Route path="/inquiries/:id" element={<InquiriesDetail />} />
-        <Route path="/images/characters" element={<Characters />} />
-        <Route path="/images/illustrations" element={<Illustrations />} />
         <Route path="/prompts/user" element={<UserPrompts />} />
         <Route path="/prompts/gpt" element={<GPTPrompts />} />
         <Route path="/prompts/user/detail/:id" element={<UserPromptsDetail />} />

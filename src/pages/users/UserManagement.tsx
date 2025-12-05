@@ -7,9 +7,10 @@ import { useNavigate } from 'react-router-dom'
 import { HiOutlineChevronRight } from "react-icons/hi"
 
 import Grid from '../../components/common/grids/Grid.tsx'
-import SearchFilter from '../../components/pages/users/SearchFilter.tsx'
 import Title from "../../components/common/customs/Title.tsx"
 import StarLevel from "../../components/common/customs/StarLevel.tsx"
+
+import SearchFilter from '../../components/pages/users/SearchFilter.tsx'
 
 const generateRandomData = (count: number) => {
   const names = ["김서준", "이지우", "박하윤", "최민서", "정유진", "강도현", "윤지호", "조하린", "임준호", "한예린"]

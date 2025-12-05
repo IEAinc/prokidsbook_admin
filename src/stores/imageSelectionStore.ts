@@ -1,3 +1,4 @@
+/* 미사용 스토어 */
 import { create } from 'zustand';
 
 interface User {
