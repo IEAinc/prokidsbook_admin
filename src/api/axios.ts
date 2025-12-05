@@ -12,10 +12,7 @@ axiosInstance.interceptors.request.use(
   (config) => {
     useLoadingStore.getState().setLoading(true)
 
-    const accessToken = document.cookie
-      .split('; ')
-      .find((row) => row.startsWith('accessToken='))
-      ?.split('=')[1]
+    const accessToken = localStorage.getItem('accessToken')
 
     if (accessToken) {
       config.headers['Authorization'] = `Bearer ${accessToken}`

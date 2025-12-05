@@ -1,6 +1,5 @@
 import { useState } from "react"
 import { useNavigate } from "react-router-dom"
-import Cookies from "js-cookie"
 import axiosInstance from "../../api/axios.ts"
 import loginImage from "../../assets/images/login_prokids.png"
 
@@ -23,10 +22,7 @@ const Login = () => {
       const data = response as any
 
       if (data && data.accessToken) {
-        Cookies.set("accessToken", data.accessToken, {
-          secure: true,
-          sameSite: "None"
-        })
+        localStorage.setItem("accessToken", data.accessToken)
         alert("🎉로그인 성공! 관리자님 반갑습니다!")
         navigate("/dashboard")
       } else {
