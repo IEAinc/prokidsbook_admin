@@ -4,7 +4,7 @@
  */
 import { useEffect } from 'react'
 import { format, parseISO } from 'date-fns'
-import { HiX } from "react-icons/hi"
+import { HiX } from "react-icons/hi" // 아이콘
 
 import Btn from '../buttons/Btn.tsx'
 import FairyTale from '../../pages/users/swiperContents/FairyTale.tsx'
@@ -141,7 +141,7 @@ const CustomModalFairy = ({
             <HiX className="w-8 h-8 text-black" />
           </Btn>
         </div>
-        <div className="w-[90vh] h-[50vh] bg-white rounded-xl overflow-hidden">
+        <div className="w-[90vh] h-[44vh] bg-white rounded-xl overflow-hidden">
           {isBanned ? (
             <div className="w-full h-full bg-gray-200 flex items-center justify-center text-lg font-bold text-gray-500">
               이미지 생성 실패
